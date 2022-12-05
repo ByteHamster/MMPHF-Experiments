@@ -16,6 +16,15 @@ git submodule update --recursive --init
 # This time it works...
 ```
 
+### Plots
+
+```
+cd plots
+make plots
+```
+
+If you have new plot data to plot, you need to install `sqlplot-tools` and run `make plotdata`.
+
 ### License
 
 The benchmark code is licensed under the [GPLv3](/LICENSE).
