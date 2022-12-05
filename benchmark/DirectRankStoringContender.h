@@ -5,13 +5,11 @@
 
 class DirectRankStoringContender : public Contender {
     public:
-       RecursiveDirectRankStoringMmphf *mmphf;
+        RecursiveDirectRankStoringMmphf *mmphf = nullptr;
 
-        DirectRankStoringContender() {
-        }
+        DirectRankStoringContender() = default;
 
-        ~DirectRankStoringContender() override {
-        }
+        ~DirectRankStoringContender() override = default;
 
         std::string name() override {
             return std::string("DirectRankStoring");

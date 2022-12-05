@@ -13,7 +13,7 @@ target_compile_features(PerfectHashingCompetitors INTERFACE cxx_std_20)
 add_subdirectory(extlib/directRankStoring)
 target_link_libraries(PerfectHashingCompetitors INTERFACE DirectRankStoring)
 
-add_subdirectory(extlib/pathCompressedTries)
+add_subdirectory(extlib/pathCompressedTries EXCLUDE_FROM_ALL)
 target_include_directories(PerfectHashingCompetitors SYSTEM INTERFACE extlib/pathCompressedTries)
 target_link_libraries(PerfectHashingCompetitors INTERFACE succinct)
 

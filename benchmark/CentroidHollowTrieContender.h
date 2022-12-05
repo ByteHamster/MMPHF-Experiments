@@ -6,13 +6,11 @@
 
 class CentroidHollowTrieContender : public Contender {
     public:
-        succinct::tries::centroid_hollow_trie *mmphf;
+        succinct::tries::centroid_hollow_trie *mmphf = nullptr;
 
-        CentroidHollowTrieContender() {
-        }
+        CentroidHollowTrieContender() = default;
 
-        ~CentroidHollowTrieContender() override {
-        }
+        ~CentroidHollowTrieContender() override = default;
 
         std::string name() override {
             return std::string("CentroidHollowTrie");

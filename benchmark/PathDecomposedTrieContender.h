@@ -9,13 +9,11 @@
 template <typename LabelsPoolType>
 class PathDecomposedTrieContender : public Contender {
     public:
-        succinct::tries::path_decomposed_trie<LabelsPoolType, true> *mmphf;
+        succinct::tries::path_decomposed_trie<LabelsPoolType, true> *mmphf = nullptr;
 
-        PathDecomposedTrieContender() {
-        }
+        PathDecomposedTrieContender() = default;
 
-        ~PathDecomposedTrieContender() override {
-        }
+        ~PathDecomposedTrieContender() override = default;
 
         std::string name() override {
             return std::string("PathDecomposedTrie")

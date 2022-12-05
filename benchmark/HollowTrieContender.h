@@ -9,13 +9,11 @@
 template <typename SkipsType>
 class HollowTrieContender : public Contender {
     public:
-        succinct::tries::hollow_trie<SkipsType> *mmphf;
+        succinct::tries::hollow_trie<SkipsType> *mmphf = nullptr;
 
-        HollowTrieContender() {
-        }
+        HollowTrieContender() = default;
 
-        ~HollowTrieContender() override {
-        }
+        ~HollowTrieContender() override = default;
 
         std::string name() override {
             return std::string("HollowTrie")
