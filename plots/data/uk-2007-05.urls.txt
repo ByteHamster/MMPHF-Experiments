@@ -1,5 +1,6 @@
+Loading input file
 Sorting input data
-Loaded 105896555 strings
+Loaded 10000000 strings
 
 Contender: DirectRankStoring
 Cooldown
@@ -8,12 +9,16 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-Retrieval:          9.65708
-Bucket size prefix: 1.26673
-PGM:                1.35159
-Recursion pointers: 0.378247
-sizeof(*this):      0.236298
-RESULT name=DirectRankStoring bitsPerElement=12.5432 constructionTimeMilliseconds=40753 queryTimeMilliseconds=617 numQueries=100000 N=105896555
+Retrieval:           4.45598
+Bucket mapper:       0.448678
+Bucket offsets:      1.54326
+Tree node data:      0.347805
+Alphabet maps:       0.0608896
+7-bit alphabets:     4757
+8-bit alphabets:     0
+Height:              44
+Nodes:               26712
+RESULT name=DirectRankStoring bitsPerElement=6.85742 constructionTimeMilliseconds=14484 queryTimeMilliseconds=350 numQueries=100000 N=10000000
 
 Contender: CentroidHollowTrie
 Cooldown
@@ -22,7 +27,7 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-RESULT name=CentroidHollowTrie bitsPerElement=8.35901 constructionTimeMilliseconds=68944 queryTimeMilliseconds=298 numQueries=100000 N=105896555
+RESULT name=CentroidHollowTrie bitsPerElement=8.45766 constructionTimeMilliseconds=4165 queryTimeMilliseconds=177 numQueries=100000 N=10000000
 
 Contender: HollowTrie
 Cooldown
@@ -31,16 +36,7 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-RESULT name=HollowTrie labelsPoolType=N8succinct12gamma_vectorE bitsPerElement=7.42151 constructionTimeMilliseconds=76271 queryTimeMilliseconds=756 numQueries=100000 N=105896555
-
-Contender: HollowTrie
-Cooldown
-Constructing
-Testing
-^[[CPreparing query plan
-Cooldown
-Querying
-RESULT name=HollowTrie labelsPoolType=N8succinct15elias_fano_listE bitsPerElement=9.68466 constructionTimeMilliseconds=74841 queryTimeMilliseconds=765 numQueries=100000 N=105896555
+RESULT name=HollowTrie labelsPoolType=N8succinct12gamma_vectorE bitsPerElement=7.52016 constructionTimeMilliseconds=4613 queryTimeMilliseconds=478 numQueries=100000 N=10000000
 
 Contender: HollowTrie
 Cooldown
@@ -49,7 +45,16 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-RESULT name=HollowTrie labelsPoolType=N8succinct6mapper15mappable_vectorItEE bitsPerElement=18.7052 constructionTimeMilliseconds=73834 queryTimeMilliseconds=481 numQueries=100000 N=105896555
+RESULT name=HollowTrie labelsPoolType=N8succinct15elias_fano_listE bitsPerElement=9.61119 constructionTimeMilliseconds=4530 queryTimeMilliseconds=488 numQueries=100000 N=10000000
+
+Contender: HollowTrie
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=HollowTrie labelsPoolType=N8succinct6mapper15mappable_vectorItEE bitsPerElement=18.7085 constructionTimeMilliseconds=4471 queryTimeMilliseconds=318 numQueries=100000 N=10000000
 
 Contender: PathDecomposedTrie
 Cooldown
@@ -58,7 +63,7 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-RESULT name=PathDecomposedTrie labelsPoolType=N8succinct5tries17vbyte_string_poolE bitsPerElement=228.877 constructionTimeMilliseconds=159298 queryTimeMilliseconds=519 numQueries=100000 N=105896555
+RESULT name=PathDecomposedTrie labelsPoolType=N8succinct5tries17vbyte_string_poolE bitsPerElement=217.545 constructionTimeMilliseconds=10929 queryTimeMilliseconds=314 numQueries=100000 N=10000000
 
 Contender: PathDecomposedTrie
 Cooldown
@@ -67,4 +72,6 @@ Testing
 Preparing query plan
 Cooldown
 Querying
-RESULT name=PathDecomposedTrie labelsPoolType=N8succinct5tries22compressed_string_poolE bitsPerElement=162.914 constructionTimeMilliseconds=1144638 queryTimeMilliseconds=564 numQueries=100000 N=105896555
+RESULT name=PathDecomposedTrie labelsPoolType=N8succinct5tries22compressed_string_poolE bitsPerElement=140.182 constructionTimeMilliseconds=76616 queryTimeMilliseconds=351 numQueries=100000 N=10000000
+
+Process finished with exit code 0

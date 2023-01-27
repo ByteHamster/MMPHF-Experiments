@@ -3,4 +3,4 @@
 	url = git@github.com:ByteHamster/DirectRankStoring.git
 [submodule "extlib/pathCompressedTries"]
 	path = extlib/pathCompressedTries
-	url = git@github.com:ot/path_decomposed_tries.git
+	url = git@github.com:ByteHamster-etc/path_decomposed_tries.git

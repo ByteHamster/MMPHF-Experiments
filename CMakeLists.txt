@@ -13,9 +13,13 @@ target_compile_features(PerfectHashingCompetitors INTERFACE cxx_std_20)
 add_subdirectory(extlib/directRankStoring)
 target_link_libraries(PerfectHashingCompetitors INTERFACE DirectRankStoring)
 
-add_subdirectory(extlib/pathCompressedTries EXCLUDE_FROM_ALL)
-target_include_directories(PerfectHashingCompetitors SYSTEM INTERFACE extlib/pathCompressedTries)
-target_link_libraries(PerfectHashingCompetitors INTERFACE succinct)
+# Doing it "properly" with add_subdirectory fails because both ds2i and path_decomposed_tries add the same submodule.
+add_library(pathCompressedTries STATIC
+        extlib/pathCompressedTries/succinct/bp_vector.cpp
+        extlib/pathCompressedTries/succinct/rs_bit_vector.cpp)
+target_include_directories(pathCompressedTries SYSTEM INTERFACE extlib/pathCompressedTries)
+target_link_libraries(pathCompressedTries INTERFACE ds2i)
+target_link_libraries(PerfectHashingCompetitors INTERFACE pathCompressedTries)
 
 ################### Benchmark build targets ###################
 add_executable(Comparison comparison.cpp)
