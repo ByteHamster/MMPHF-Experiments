@@ -63,7 +63,6 @@
             title={},
             xlabel={Space usage (bits per key)},
             ylabel={Construction per key (ns)},
-            legend style={at={(1.03,0.5)},anchor=west},
             legend columns=4,
             only marks,
             extra x ticks={23},
@@ -80,11 +79,11 @@
           %%     name AS title
           %%   FROM urls
           %%   ORDER BY name,x
-          \addplot coordinates { (8.45766,416.5) };
+          \addplot coordinates { (8.35901,391.382) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (6.85742,900) };
+          \addplot coordinates { (6.67972,575.741) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (7.52016,461.3) (9.61119,453.0) (18.7085,447.1) };
+          \addplot coordinates { (7.42151,513.907) (9.68466,511.329) (18.7052,510.781) };
           \addlegendentry{HollowTrie};
           \addplot coordinates { (23,900) (23,900) };
           \addlegendentry{PathDecomposedTrie};
@@ -99,8 +98,6 @@
             only marks,
             extra x ticks={23},
             extra x tick labels={$\geq$},
-            extra y ticks={900},
-            extra y tick labels={$\geq$},
           ]
           %% MULTIPLOT(name|title)
           %%   SELECT
@@ -110,13 +107,13 @@
           %%     name AS title
           %%   FROM urls
           %%   ORDER BY name,x
-          \addplot coordinates { (8.45766,1.77) };
+          \addplot coordinates { (8.35901,2.1225) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (6.85742,3.5) };
+          \addplot coordinates { (6.67972,2.429) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (7.52016,4.78) (9.61119,4.88) (18.7085,3.18) };
+          \addplot coordinates { (7.42151,5.439) (9.68466,5.5295) (18.7052,3.83) };
           \addlegendentry{HollowTrie};
-          \addplot coordinates { (23,3.14) (23,3.51) };
+          \addplot coordinates { (23,3.6875) (23,4.0865) };
           \addlegendentry{PathDecomposedTrie};
 
           \legend{};
@@ -150,13 +147,13 @@
           %%     name AS title
           %%   FROM titles
           %%   ORDER BY name,x
-          \addplot coordinates { (6.69053,321.177) };
+          \addplot coordinates { (6.69053,257.307) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (7.1703,900) };
+          \addplot coordinates { (7.16934,831.228) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (5.75304,345.813) (6.4705,332.126) (18.7111,344.9) };
+          \addplot coordinates { (5.75304,284.68) (6.4705,283.767) (18.7111,281.942) };
           \addlegendentry{HollowTrie};
-          \addplot coordinates { (23,452.568) (23,841.265) };
+          \addplot coordinates { (23,320.265) (23,750.021) };
           \addlegendentry{PathDecomposedTrie};
 
           \legend{};
@@ -171,8 +168,6 @@
             only marks,
             extra x ticks={23},
             extra x tick labels={$\geq$},
-            extra y ticks={900},
-            extra y tick labels={$\geq$},
           ]
           %% MULTIPLOT(name|title)
           %%   SELECT
@@ -182,13 +177,13 @@
           %%     name AS title
           %%   FROM titles
           %%   ORDER BY name,x
-          \addplot coordinates { (6.69053,1.05) };
+          \addplot coordinates { (6.69053,0.832) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (7.1703,0.63) };
+          \addplot coordinates { (7.16934,0.428) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (5.75304,1.78) (6.4705,1.83) (18.7111,1.14) };
+          \addplot coordinates { (5.75304,1.414) (6.4705,1.492) (18.7111,0.894) };
           \addlegendentry{HollowTrie};
-          \addplot coordinates { (23,0.91) (23,0.9) };
+          \addplot coordinates { (23,0.676) (23,0.7075) };
           \addlegendentry{PathDecomposedTrie};
 
           \legend{};
@@ -222,13 +217,13 @@
           %%     name AS title
           %%   FROM text
           %%   ORDER BY name,x
-          \addplot coordinates { (6.55968,303.9) };
+          \addplot coordinates { (6.77934,273.355) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (7.00542,900) };
+          \addplot coordinates { (6.84487,715.352) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (5.62218,340.9) (6.25452,342.7) (18.7085,346.0) };
+          \addplot coordinates { (5.84184,313.307) (6.77952,316.949) (18.7104,310.582) };
           \addlegendentry{HollowTrie};
-          \addplot coordinates { (23,369.0) (23,900) };
+          \addplot coordinates { (23,388.651) (23,900) };
           \addlegendentry{PathDecomposedTrie};
 
           \legend{};
@@ -243,8 +238,6 @@
             only marks,
             extra x ticks={23},
             extra x tick labels={$\geq$},
-            extra y ticks={900},
-            extra y tick labels={$\geq$},
           ]
           %% MULTIPLOT(name|title)
           %%   SELECT
@@ -254,13 +247,13 @@
           %%     name AS title
           %%   FROM text
           %%   ORDER BY name,x
-          \addplot coordinates { (6.55968,1.45) };
+          \addplot coordinates { (6.77934,1.537) };
           \addlegendentry{CentroidHollowTrie};
-          \addplot coordinates { (7.00542,0.74) };
+          \addplot coordinates { (6.84487,0.6515) };
           \addlegendentry{DirectRankStoring};
-          \addplot coordinates { (5.62218,2.16) (6.25452,2.19) (18.7085,1.48) };
+          \addplot coordinates { (5.84184,2.3805) (6.77952,2.511) (18.7104,1.654) };
           \addlegendentry{HollowTrie};
-          \addplot coordinates { (23,1.45) (23,1.44) };
+          \addplot coordinates { (23,1.341) (23,1.4405) };
           \addlegendentry{PathDecomposedTrie};
 
           \legend{};
