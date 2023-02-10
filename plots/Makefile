@@ -9,4 +9,5 @@ plotdata: plots.tex data/*
 
 plots: plots.tex data/*
 	pdflatex plots.tex
+	pdflatex plots.tex
 	rm -rf *.log *.aux *.bbl *.blg .toc *.out *.toc
