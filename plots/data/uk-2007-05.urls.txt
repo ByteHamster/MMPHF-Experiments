@@ -18,7 +18,7 @@ Alphabet maps:       0.0608582
 8-bit alphabets:     0
 Height:              95
 Nodes:               268101
-RESULT name=DirectRankStoring bitsPerElement=6.67972 constructionTimeMilliseconds=60969 queryTimeMilliseconds=4858 numQueries=2000000 N=105896555
+RESULT name=DirectRankStoring20230130 bitsPerElement=6.67972 constructionTimeMilliseconds=60969 queryTimeMilliseconds=4858 numQueries=2000000 N=105896555
 
 Contender: CentroidHollowTrie
 Cooldown
@@ -73,3 +73,75 @@ Preparing query plan
 Cooldown
 Querying
 RESULT name=PathDecomposedTrie labelsPoolType=N8succinct5tries22compressed_string_poolE bitsPerElement=162.914 constructionTimeMilliseconds=860305 queryTimeMilliseconds=8173 numQueries=2000000 N=105896555
+Loading input file
+Sorting input data
+Loaded 105896555 strings
+Contender: HollowTrieJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=HollowTrieJava bitsPerElement=8.407106529575017 constructionTimeMilliseconds=92991 queryTimeMilliseconds=28304 numQueries=2000000 N=105896555
+Contender: HollowTrieDistJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=HollowTrieDistJava bitsPerElement=5.698710066630591 constructionTimeMilliseconds=503820 queryTimeMilliseconds=37617 numQueries=2000000 N=105896555
+Contender: LcpJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=LcpJava bitsPerElement=22.744856053154894 constructionTimeMilliseconds=116981 queryTimeMilliseconds=4341 numQueries=2000000 N=105896555
+Contender: PaCoTrieJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=PaCoTrieJava bitsPerElement=11.08658502630232 constructionTimeMilliseconds=354615 queryTimeMilliseconds=10761 numQueries=2000000 N=105896555
+Contender: VLLcpJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=VLLcpJava bitsPerElement=22.585238481081845 constructionTimeMilliseconds=220472 queryTimeMilliseconds=6173 numQueries=2000000 N=105896555
+Contender: VLPaCoTrieJava
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+RESULT name=VLPaCoTrieJava bitsPerElement=11.058093466779916 constructionTimeMilliseconds=353212 queryTimeMilliseconds=10731 numQueries=2000000 N=105896555
+Loading input file
+Sorting input data
+Loaded 105896555 strings
+
+Contender: DirectRankStoring
+Cooldown
+Constructing
+Testing
+Preparing query plan
+Cooldown
+Querying
+Retrieval:           4.30395
+Bucket mapper:       0.353927
+Bucket offsets:      1.33682
+Tree node data:      0.329441
+Alphabet maps:       0.0608449
+7-bit alphabets:     50338
+8-bit alphabets:     0
+Height:              95
+Nodes:               268229
+RESULT name=DirectRankStoring20230210 bitsPerElement=6.38508 constructionTimeMilliseconds=73225 queryTimeMilliseconds=390 numQueries=100000 N=105896555
