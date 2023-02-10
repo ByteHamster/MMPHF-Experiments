@@ -21,7 +21,12 @@ make
 
 ### Running Java Competitors
 
-
+```
+apt install ivy ant
+cd java
+mvn package
+java -jar target/MmphfExperiments-1.0-jar-with-dependencies.jar --help
+```
 
 ### Generating Plots
 

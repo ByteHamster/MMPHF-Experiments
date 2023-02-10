@@ -4,3 +4,9 @@
 [submodule "cpp/extlib/pathDecomposedTries"]
 	path = cpp/extlib/pathDecomposedTries
 	url = https://github.com/ByteHamster-etc/path_decomposed_tries.git
+[submodule "java/extlib/sux4j"]
+	path = java/extlib/sux4j
+	url = https://github.com/vigna/Sux4J.git
+[submodule "java/sux4j"]
+	path = java/sux4j
+	url = https://github.com/vigna/Sux4J.git
