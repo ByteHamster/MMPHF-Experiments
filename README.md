@@ -2,21 +2,28 @@
 
 Monotone Minimal Perfect Hashing competitors.
 
-### Building
-
-For whatever reason, the `ot/succinct` repo cannot be cloned using `submodule update` on my machine.
-Cloning it manually works. So you can run something like this:
+### Cloning
 
 ```
 git clone git@github.com:ByteHamster/MMPHF-Experiments.git
 git submodule update --recursive --init 
-# This will hang forever at ot/succinct. Just cancel.
-git clone git@github.com:ot/succinct.git extlib/pathCompressedTries/succinct
-git submodule update --recursive --init 
-# This time it works...
 ```
 
-### Plots
+### Running C++ Competitors
+
+```
+mkdir cpp/build
+cd cpp/build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+./Comparison --help
+```
+
+### Running Java Competitors
+
+
+
+### Generating Plots
 
 ```
 cd plots
@@ -28,4 +35,4 @@ If you have new plot data to plot, you need to install `sqlplot-tools` and run `
 ### License
 
 The benchmark code is licensed under the [GPLv3](/LICENSE).
-The competitors (in the `extlib` directory) are licensed with their respective licenses.
+The competitors (in the `cpp/extlib` and `java/extlib` directories) are licensed with their respective licenses.

@@ -1,6 +1,6 @@
-[submodule "extlib/directRankStoring"]
-	path = extlib/directRankStoring
+[submodule "cpp/extlib/directRankStoring"]
+	path = cpp/extlib/directRankStoring
 	url = git@github.com:ByteHamster/DirectRankStoring.git
-[submodule "extlib/pathCompressedTries"]
-	path = extlib/pathCompressedTries
-	url = git@github.com:ByteHamster-etc/path_decomposed_tries.git
+[submodule "cpp/extlib/pathDecomposedTries"]
+	path = cpp/extlib/pathDecomposedTries
+	url = https://github.com/ByteHamster-etc/path_decomposed_tries.git

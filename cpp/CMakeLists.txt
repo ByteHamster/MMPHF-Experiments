@@ -14,12 +14,12 @@ add_subdirectory(extlib/directRankStoring)
 target_link_libraries(PerfectHashingCompetitors INTERFACE DirectRankStoring)
 
 # Doing it "properly" with add_subdirectory fails because both ds2i and path_decomposed_tries add the same submodule.
-add_library(pathCompressedTries STATIC
-        extlib/pathCompressedTries/succinct/bp_vector.cpp
-        extlib/pathCompressedTries/succinct/rs_bit_vector.cpp)
-target_include_directories(pathCompressedTries SYSTEM INTERFACE extlib/pathCompressedTries)
-target_link_libraries(pathCompressedTries INTERFACE ds2i)
-target_link_libraries(PerfectHashingCompetitors INTERFACE pathCompressedTries)
+add_library(pathDecomposedTries STATIC
+        extlib/pathDecomposedTries/succinct/bp_vector.cpp
+        extlib/pathDecomposedTries/succinct/rs_bit_vector.cpp)
+target_include_directories(pathDecomposedTries SYSTEM INTERFACE extlib/pathDecomposedTries)
+target_link_libraries(pathDecomposedTries INTERFACE ds2i)
+target_link_libraries(PerfectHashingCompetitors INTERFACE pathDecomposedTries)
 
 ################### Benchmark build targets ###################
 add_executable(Comparison comparison.cpp)
