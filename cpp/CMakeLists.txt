@@ -14,6 +14,7 @@ add_subdirectory(extlib/directRankStoring)
 target_link_libraries(PerfectHashingCompetitors INTERFACE DirectRankStoring)
 
 # Doing it "properly" with add_subdirectory fails because both ds2i and path_decomposed_tries add the same submodule.
+option(SUCCINCT_USE_INTRINSICS "Use a set of intrinsics available on all x86-64 architectures" ON)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/extlib/pathDecomposedTries/succinct/succinct_config.hpp.in
         ${CMAKE_CURRENT_SOURCE_DIR}/extlib/pathDecomposedTries/succinct/succinct_config.hpp)
 add_library(pathDecomposedTries STATIC
