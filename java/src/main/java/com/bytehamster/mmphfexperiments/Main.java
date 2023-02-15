@@ -6,11 +6,10 @@ import com.bytehamster.mmphfexperiments.benchmark.HollowTrieContender;
 import com.bytehamster.mmphfexperiments.benchmark.HollowTrieDistContender;
 import com.bytehamster.mmphfexperiments.benchmark.LcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.PaCoTrieContender;
-import com.bytehamster.mmphfexperiments.benchmark.TwoStepsLcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.VLLcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.VLPaCoTrieContender;
-import com.bytehamster.mmphfexperiments.benchmark.ZFastTrieDistributorContender;
 
+import java.io.File;
 import java.util.List;
 
 public class Main {
@@ -55,6 +54,7 @@ public class Main {
             System.out.println("Input file does not contain strings");
             return;
         }
+        Contender.dataset = new File(filename).getName();
 
         new HollowTrieContender().run(input);
         new HollowTrieDistContender().run(input);

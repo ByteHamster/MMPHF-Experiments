@@ -6,6 +6,7 @@ import java.util.Random;
 
 public abstract class Contender {
     public static int numQueries = 100000;
+    public static String dataset = "unknown";
 
     abstract String name();
     abstract long sizeBits();
@@ -57,6 +58,7 @@ public abstract class Contender {
         }
         double bitsPerElement = (double) sizeBits() / N;
         System.out.println("RESULT"
+                + " dataset=" + dataset
                 + " name=" + name()
                 + " bitsPerElement=" + bitsPerElement
                 + " constructionTimeMilliseconds=" + constructionTime

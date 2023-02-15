@@ -23,6 +23,9 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    size_t positionOfSlash = filename.find_last_of('/');
+    Contender::dataset = positionOfSlash == std::string::npos ? filename : filename.substr(positionOfSlash + 1);
+
     directRankStoringContenderRunner(input);
     centroidHollowTrieContenderRunner(input);
     hollowTrieContenderRunner(input);

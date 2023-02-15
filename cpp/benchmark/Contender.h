@@ -12,6 +12,7 @@
 class Contender {
     public:
         static size_t numQueries;
+        static std::string dataset;
 
         Contender() {
         }
@@ -70,6 +71,7 @@ class Contender {
             }
             double bitsPerElement = (double) sizeBits() / N;
             std::cout << "RESULT"
+                      << " dataset=" << dataset
                       << " name=" << name()
                       << " bitsPerElement=" << bitsPerElement
                       << " constructionTimeMilliseconds=" << constructionTime
@@ -101,3 +103,4 @@ class Contender {
         }
 };
 size_t Contender::numQueries = 1e5;
+std::string Contender::dataset = "unknown";

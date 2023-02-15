@@ -1,7 +1,10 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import it.unimi.dsi.bits.TransformationStrategies;
 import it.unimi.dsi.sux4j.mph.ZFastTrieDistributorMonotoneMinimalPerfectHashFunction;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +25,7 @@ public class ZFastTrieDistributorContender extends Contender {
 
     @Override
     void beforeConstruction(List<String> keys) {
+        ((Logger) LoggerFactory.getLogger(ZFastTrieDistributorMonotoneMinimalPerfectHashFunction.class)).setLevel(Level.OFF);
         mphfBuilder = new ZFastTrieDistributorMonotoneMinimalPerfectHashFunction.Builder<>();
         mphfBuilder.keys(keys);
         mphfBuilder.transform(TransformationStrategies.prefixFreeUtf16());
