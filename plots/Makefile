@@ -4,10 +4,13 @@ clean:
 	rm -rf *.log *.aux *.bbl *.blg .toc *.out *.toc
 	rm -rf paper.pdf
 
-plotdata: plots.tex data/*
-	sqlplot-tools plots.tex
+plotdata: construction.tex data/*
+	./createAxis.sh
+	sqlplot-tools construction.tex
+	sqlplot-tools queries.tex
 
-plots: plots.tex data/*
+plots: construction.tex queries.tex data/*
+	pdflatex plots.tex
+	bibtex plots
 	pdflatex plots.tex
 	pdflatex plots.tex
-	rm -rf *.log *.aux *.bbl *.blg .toc *.out *.toc

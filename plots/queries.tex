@@ -1,0 +1,126 @@
+% IMPORT-DATA competitors data/competitors.txt
+% IMPORT-DATA competitorNames data/__competitorNames.txt
+\begin{tikzpicture}
+    \begin{axis}[
+        title={trec-text.terms},
+        plotCompetitorQueries,
+        legend to name=legendCompetitorsQueries,
+      ]
+      %% MULTIPLOT(name|ptitle|attr)
+      %%   SELECT
+      %%     MIN(bitsPerElement, 13) as x,
+      %%     0.001*numQueries/queryTimeMilliseconds as y,
+      %%     name,
+      %%     attr,
+      %%     name AS title,
+      %%     paper_name AS ptitle
+      %%   FROM competitors
+      %%   JOIN competitorNames ON name = code_name
+      %%   WHERE dataset="trec-text.terms"
+      %%   ORDER BY name,x
+      \addplot[mark=x,color=colorCentroidHollowTrie,solid] coordinates { (6.77934,0.650618) };
+      \addlegendentry{Centroid Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=o,color=colorDirectRankStoring,solid] coordinates { (6.84487,1.53492) };
+      \addlegendentry{\textbf{Direct Rank Storing (20230130)}};
+      \addplot[mark=triangle,color=colorDirectRankStoring,solid] coordinates { (6.02976,0.892857) };
+      \addlegendentry{\textbf{Direct Rank Storing (20230210)}};
+      \addplot[mark=pentagon,color=colorHollowTrie,solid] coordinates { (5.84184,0.42008) (6.77952,0.398248) (13,0.604595) };
+      \addlegendentry{Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=asterisk,color=colorHollowTrieDist,solid] coordinates { (5.39703,0.0941531) };
+      \addlegendentry{Hollow Trie Dist (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=square,color=colorHollowTrie,solid] coordinates { (6.90449,0.150015) };
+      \addlegendentry{Hollow Trie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=diamond,color=colorLcp,solid] coordinates { (13,1.58856) };
+      \addlegendentry{Lcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=+,color=colorPaCoTrieJava,solid] coordinates { (7.87968,0.358551) };
+      \addlegendentry{PaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=flippedTriangle,color=colorPathDecomposedTrie,solid] coordinates { (13,0.745712) (13,0.694203) };
+      \addlegendentry{Path Decomposed Trie \cite{grossi2014decomposition}};
+      \addplot[mark=|,color=colorVllcp,solid] coordinates { (13,0.933707) };
+      \addlegendentry{VLLcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=*,color=colorPaCoTrieJava,solid] coordinates { (8.18601,0.319693) };
+      \addlegendentry{VLPaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+    \end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+    \begin{axis}[
+        title={trec-title.terms},
+        plotCompetitorQueries,
+        legend to name=legendCompetitorsQueries,
+      ]
+      %% MULTIPLOT(name|ptitle|attr)
+      %%   SELECT
+      %%     MIN(bitsPerElement, 13) as x,
+      %%     0.001*numQueries/queryTimeMilliseconds as y,
+      %%     name,
+      %%     attr,
+      %%     name AS title,
+      %%     paper_name AS ptitle
+      %%   FROM competitors
+      %%   JOIN competitorNames ON name = code_name
+      %%   WHERE dataset="trec-title.terms"
+      %%   ORDER BY name,x
+      \addplot[mark=x,color=colorCentroidHollowTrie,solid] coordinates { (6.69053,1.20192) };
+      \addlegendentry{Centroid Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=o,color=colorDirectRankStoring,solid] coordinates { (7.16934,2.33645) };
+      \addlegendentry{\textbf{Direct Rank Storing (20230130)}};
+      \addplot[mark=pentagon,color=colorHollowTrie,solid] coordinates { (5.75304,0.707214) (6.4705,0.670241) (13,1.11857) };
+      \addlegendentry{Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=asterisk,color=colorHollowTrieDist,solid] coordinates { (5.44223,0.144592) };
+      \addlegendentry{Hollow Trie Dist (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=square,color=colorHollowTrie,solid] coordinates { (6.73464,0.225175) };
+      \addlegendentry{Hollow Trie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=diamond,color=colorLcp,solid] coordinates { (13,2.51889) };
+      \addlegendentry{Lcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=+,color=colorPaCoTrieJava,solid] coordinates { (7.76357,0.551268) };
+      \addlegendentry{PaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=flippedTriangle,color=colorPathDecomposedTrie,solid] coordinates { (13,1.47929) (13,1.41343) };
+      \addlegendentry{Path Decomposed Trie \cite{grossi2014decomposition}};
+      \addplot[mark=|,color=colorVllcp,solid] coordinates { (13,1.67224) };
+      \addlegendentry{VLLcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=*,color=colorPaCoTrieJava,solid] coordinates { (8.19657,0.500501) };
+      \addlegendentry{VLPaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+    \end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+    \begin{axis}[
+        title={uk-2007-05.urls},
+        plotCompetitorQueries,
+        legend to name=legendCompetitorsQueries,
+      ]
+      %% MULTIPLOT(name|ptitle|attr)
+      %%   SELECT
+      %%     MIN(bitsPerElement, 13) as x,
+      %%     0.001*numQueries/queryTimeMilliseconds as y,
+      %%     name,
+      %%     attr,
+      %%     name AS title,
+      %%     paper_name AS ptitle
+      %%   FROM competitors
+      %%   JOIN competitorNames ON name = code_name
+      %%   WHERE dataset="uk-2007-05.urls"
+      %%   ORDER BY name,x
+      \addplot[mark=x,color=colorCentroidHollowTrie,solid] coordinates { (8.35901,0.471143) };
+      \addlegendentry{Centroid Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=o,color=colorDirectRankStoring,solid] coordinates { (6.67972,0.411692) };
+      \addlegendentry{\textbf{Direct Rank Storing (20230130)}};
+      \addplot[mark=triangle,color=colorDirectRankStoring,solid] coordinates { (6.38508,0.25641) };
+      \addlegendentry{\textbf{Direct Rank Storing (20230210)}};
+      \addplot[mark=pentagon,color=colorHollowTrie,solid] coordinates { (7.42151,0.183857) (9.68466,0.180848) (13,0.261097) };
+      \addlegendentry{Hollow Trie \cite{grossi2014decomposition}};
+      \addplot[mark=asterisk,color=colorHollowTrieDist,solid] coordinates { (5.69871,0.0531675) };
+      \addlegendentry{Hollow Trie Dist (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=square,color=colorHollowTrie,solid] coordinates { (8.40711,0.0706614) };
+      \addlegendentry{Hollow Trie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=diamond,color=colorLcp,solid] coordinates { (13,0.460723) };
+      \addlegendentry{Lcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=+,color=colorPaCoTrieJava,solid] coordinates { (11.0866,0.185856) };
+      \addlegendentry{PaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=flippedTriangle,color=colorPathDecomposedTrie,solid] coordinates { (13,0.271186) (13,0.244708) };
+      \addlegendentry{Path Decomposed Trie \cite{grossi2014decomposition}};
+      \addplot[mark=|,color=colorVllcp,solid] coordinates { (13,0.323992) };
+      \addlegendentry{VLLcp (Java) \cite{belazzougui2011theoryPractice}};
+      \addplot[mark=*,color=colorPaCoTrieJava,solid] coordinates { (11.0581,0.186376) };
+      \addlegendentry{VLPaCoTrie (Java) \cite{belazzougui2011theoryPractice}};
+    \end{axis}
+\end{tikzpicture}
