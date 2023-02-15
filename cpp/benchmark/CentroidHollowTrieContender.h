@@ -4,7 +4,7 @@
 #include <tries/centroid_hollow_trie.hpp>
 #include <succinct/mapper.hpp>
 
-class CentroidHollowTrieContender : public Contender {
+class CentroidHollowTrieContender : public Contender<std::string> {
     public:
         succinct::tries::centroid_hollow_trie *mmphf = nullptr;
 

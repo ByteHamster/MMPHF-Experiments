@@ -7,7 +7,7 @@
 #include <tries/compressed_string_pool.hpp>
 
 template <typename LabelsPoolType>
-class PathDecomposedTrieContender : public Contender {
+class PathDecomposedTrieContender : public Contender<std::string> {
     public:
         succinct::tries::path_decomposed_trie<LabelsPoolType, true> *mmphf = nullptr;
 

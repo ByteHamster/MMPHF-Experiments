@@ -9,6 +9,7 @@
 
 #define DO_NOT_OPTIMIZE(value) asm volatile ("" : : "r,m"(value) : "memory")
 
+template<typename T>
 class Contender {
     public:
         static size_t numQueries;
@@ -21,15 +22,15 @@ class Contender {
 
         virtual std::string name() = 0;
         virtual size_t sizeBits() = 0;
-        virtual void construct(const std::vector<std::string> &keys) = 0;
+        virtual void construct(const std::vector<T> &keys) = 0;
 
-        virtual void beforeConstruction(const std::vector<std::string> &keys) {
+        virtual void beforeConstruction(const std::vector<T> &keys) {
             (void) keys;
         }
-        virtual void performQueries(const std::vector<std::string> &keys) = 0;
-        virtual void performTest(const std::vector<std::string> &keys) = 0;
+        virtual void performQueries(const std::vector<T> &keys) = 0;
+        virtual void performTest(const std::vector<T> &keys) = 0;
 
-        void run(std::vector<std::string> keys) {
+        void run(std::vector<T> keys) {
             size_t N = keys.size();
             std::cout << std::endl;
             std::cout << "Contender: " << name().substr(0, name().find(' ')) << std::endl;
@@ -55,7 +56,7 @@ class Contender {
             long queryTime = 0;
             if (numQueries > 0) {
                 std::cout<<"Preparing query plan"<<std::endl;
-                std::vector<std::string> queryPlan;
+                std::vector<T> queryPlan;
                 queryPlan.reserve(numQueries);
                 util::XorShift64 prng(time(nullptr));
                 for (size_t i = 0; i < numQueries; i++) {
@@ -82,19 +83,19 @@ class Contender {
         }
     protected:
         template<typename F>
-        void doPerformQueries(const std::vector<std::string> &keys, F &hashFunction) {
-            for (const std::string &key : keys) {
+        void doPerformQueries(const std::vector<T> &keys, F &hashFunction) {
+            for (const T &key : keys) {
                 // Some contenders expect non-const keys but actually use them as const.
-                size_t retrieved = hashFunction(const_cast<std::string &>(key));
+                size_t retrieved = hashFunction(const_cast<T &>(key));
                 DO_NOT_OPTIMIZE(retrieved);
             }
         }
 
         template<typename F>
-        void doPerformTest(const std::vector<std::string> &keys, F &hashFunction) {
+        void doPerformTest(const std::vector<T> &keys, F &hashFunction) {
             for (size_t i = 0; i < keys.size(); i++) {
                 // Some contenders expect non-const keys but actually use them as const.
-                size_t retrieved = hashFunction(const_cast<std::string &>(keys[i]));
+                size_t retrieved = hashFunction(const_cast<T &>(keys[i]));
                 if (retrieved != i) {
                     std::cout << "Error: Key at index "<<i<<" is not monotone minimal perfect (output: "<<retrieved<<")"<< std::endl;
                     throw std::logic_error("Not MMPHF");
@@ -102,5 +103,8 @@ class Contender {
             }
         }
 };
-size_t Contender::numQueries = 1e5;
-std::string Contender::dataset = "unknown";
+template <typename T>
+size_t Contender<T>::numQueries = 1e5;
+
+template <typename T>
+std::string Contender<T>::dataset = "unknown";

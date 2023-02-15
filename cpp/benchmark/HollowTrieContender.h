@@ -7,7 +7,7 @@
 #include <succinct/elias_fano_list.hpp>
 
 template <typename SkipsType>
-class HollowTrieContender : public Contender {
+class HollowTrieContender : public Contender<std::string> {
     public:
         succinct::tries::hollow_trie<SkipsType> *mmphf = nullptr;
 
