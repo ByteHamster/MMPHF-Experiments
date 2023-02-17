@@ -10,6 +10,20 @@
   \pgfpathclose%
   \pgfusepath{stroke}%
 }
+\pgfdeclareplotmark{rightTriangle}{%
+  \pgfpathmoveto{\pgfqpointpolar{0}{1.2\pgfplotmarksize}}%
+  \pgfpathlineto{\pgfqpointpolar{110}{1.2\pgfplotmarksize}}%
+  \pgfpathlineto{\pgfqpointpolar{240}{1.2\pgfplotmarksize}}%
+  \pgfpathclose%
+  \pgfusepath{stroke}%
+}
+\pgfdeclareplotmark{leftTriangle}{%
+  \pgfpathmoveto{\pgfqpointpolar{-180}{1.2\pgfplotmarksize}}%
+  \pgfpathlineto{\pgfqpointpolar{-60}{1.2\pgfplotmarksize}}%
+  \pgfpathlineto{\pgfqpointpolar{60}{1.2\pgfplotmarksize}}%
+  \pgfpathclose%
+  \pgfusepath{stroke}%
+}
 
 \definecolor{colorDirectRankStoring}{HTML}{FF7F00}
 \definecolor{veryLightGrey}{HTML}{F2F2F2}
@@ -20,7 +34,8 @@
 \definecolor{colorPaCoTrieJava}{HTML}{4DAF4A}
 \definecolor{colorPathDecomposedTrie}{HTML}{984EA3}
 \definecolor{colorVllcp}{HTML}{F781BF}
-%\definecolor{colorBdz}{HTML}{E41A1C}
+\definecolor{colorTwoStepsLcp}{HTML}{E41A1C}
+\definecolor{colorZFastTrieDistributor}{HTML}{E41A1C}
 
 \pgfplotsset{
   compat=newest,

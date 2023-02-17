@@ -9,3 +9,5 @@ RESULT code_name=PaCoTrieJava					paper_name=PaCoTrie (Java) \cite{belazzougui20
 RESULT code_name=VLPaCoTrieJava					paper_name=VLPaCoTrie (Java) \cite{belazzougui2011theoryPractice}			attr=mark=*,color=colorPaCoTrieJava,solid
 RESULT code_name=PathDecomposedTrie				paper_name=Path Decomposed Trie \cite{grossi2014decomposition}				attr=mark=flippedTriangle,color=colorPathDecomposedTrie,solid
 RESULT code_name=VLLcpJava						paper_name=VLLcp (Java) \cite{belazzougui2011theoryPractice}				attr=mark=|,color=colorVllcp,solid
+RESULT code_name=TwoStepsLcpJava				paper_name=Two Steps Lcp (Java) \cite{belazzougui2011theoryPractice}		attr=mark=leftTriangle,color=colorTwoStepsLcp,solid
+RESULT code_name=ZFastTrieDistributorJava		paper_name=ZFast Trie Dist (Java) \cite{belazzougui2011theoryPractice}		attr=mark=rightTriangle,color=colorZFastTrieDistributor,solid
