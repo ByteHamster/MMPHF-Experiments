@@ -6,6 +6,7 @@
         plotCompetitorQueries,
         legend to name=legendCompetitorsQueries,
       ]
+      \addplot[no marks,veryLightGrey,line width=2pt,forget plot,sharp plot] coordinates { (13,0) (13,100) };
       %% MULTIPLOT(name|ptitle|attr)
       %%   SELECT
       %%     MIN(bitsPerElement, 13) as x,
@@ -46,8 +47,9 @@
     \begin{axis}[
         title={trec-title.terms},
         plotCompetitorQueries,
-        legend to name=legendCompetitorsQueries,
+        legend to name=legendCompetitorsQueries,ylabel={},yticklabels={,,}
       ]
+      \addplot[no marks,veryLightGrey,line width=2pt,forget plot,sharp plot] coordinates { (13,0) (13,100) };
       %% MULTIPLOT(name|ptitle|attr)
       %%   SELECT
       %%     MIN(bitsPerElement, 13) as x,
@@ -86,8 +88,9 @@
     \begin{axis}[
         title={uk-2007-05.urls},
         plotCompetitorQueries,
-        legend to name=legendCompetitorsQueries,
+        legend to name=legendCompetitorsQueries,ylabel={},yticklabels={,,}
       ]
+      \addplot[no marks,veryLightGrey,line width=2pt,forget plot,sharp plot] coordinates { (13,0) (13,100) };
       %% MULTIPLOT(name|ptitle|attr)
       %%   SELECT
       %%     MIN(bitsPerElement, 13) as x,

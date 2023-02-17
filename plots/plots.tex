@@ -25,70 +25,7 @@
 \usepackage{marvosym}
 \usepackage{hyperref}
 
-\usetikzlibrary{pgfplots.statistics}
-\pgfplotsset{
-  width=60mm,height=55mm,
-  major grid style={thin,dotted,color=black!50},
-  minor grid style={thin,dotted,color=black!50},
-  grid,
-  every axis/.append style={
-    line width=0.5pt,
-    tick style={
-      line cap=round,
-      thin,
-      major tick length=4pt,
-      minor tick length=2pt,
-    },
-  },
-  /pgf/number format/1000 sep={},
-  legend cell align=left,
-  legend pos=north west,
-  log y ticks with fixed point/.style={
-      yticklabel={
-        \pgfkeys{/pgf/fpu=true}
-        \pgfmathparse{exp(\tick)}%
-        \pgfmathprintnumber[fixed relative, precision=3]{\pgfmathresult}
-        \pgfkeys{/pgf/fpu=false}
-      }
-  },
-  plotCompetitorConstruction/.style={
-    xlabel={Space usage (B/Key)},
-    ylabel={Throughput (MKeys/s)},
-    extra x ticks={13},
-    extra x tick labels={$\geq$},
-    width=55mm,
-    height=55mm,
-    only marks,
-    legend columns=2,
-  },
-  plotCompetitorQueries/.style={
-    xlabel={Space usage (B/Key)},
-    ylabel={Throughput (MKeys/s)},
-    extra x ticks={13},
-    extra x tick labels={$\geq$},
-    width=55mm,
-    height=55mm,
-    only marks,
-  },
-}
-\pgfdeclareplotmark{flippedTriangle}{%
-  \pgfpathmoveto{\pgfqpointpolar{-90}{1.2\pgfplotmarksize}}%
-  \pgfpathlineto{\pgfqpointpolar{30}{1.2\pgfplotmarksize}}%
-  \pgfpathlineto{\pgfqpointpolar{150}{1.2\pgfplotmarksize}}%
-  \pgfpathclose%
-  \pgfusepath{stroke}
-}
-\definecolor{colorDirectRankStoring}{HTML}{FF7F00}
-
-\definecolor{veryLightGrey}{HTML}{F2F2F2}
-\definecolor{colorHollowTrie}{HTML}{444444}
-\definecolor{colorHollowTrieDist}{HTML}{000000}
-\definecolor{colorCentroidHollowTrie}{HTML}{377EB8}
-\definecolor{colorLcp}{HTML}{A65628}
-\definecolor{colorPaCoTrieJava}{HTML}{4DAF4A}
-\definecolor{colorPathDecomposedTrie}{HTML}{984EA3}
-\definecolor{colorVllcp}{HTML}{F781BF}
-%\definecolor{colorBdz}{HTML}{E41A1C}
+\input{pgf_header.tex}
 
 \begin{document}
 
