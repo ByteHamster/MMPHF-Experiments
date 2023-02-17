@@ -1,13 +1,18 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import it.unimi.dsi.bits.TransformationStrategies;
+import it.unimi.dsi.bits.TransformationStrategy;
 import it.unimi.dsi.sux4j.mph.HollowTrieMonotoneMinimalPerfectHashFunction;
 
 import java.util.List;
 
-public class HollowTrieContender extends Contender {
-    HollowTrieMonotoneMinimalPerfectHashFunction<String> mphf;
-    
+public class HollowTrieContender<T> extends Contender<T> {
+    HollowTrieMonotoneMinimalPerfectHashFunction<T> mphf;
+    private final TransformationStrategy<T> strategy;
+
+    public HollowTrieContender(TransformationStrategy<T> strategy) {
+        this.strategy = strategy;
+    }
+
     @Override
     String name() {
         return "HollowTrieJava";
@@ -19,12 +24,12 @@ public class HollowTrieContender extends Contender {
     }
 
     @Override
-    void construct(List<String> keys) {
-        mphf = new HollowTrieMonotoneMinimalPerfectHashFunction<>(keys, TransformationStrategies.prefixFreeUtf16());
+    void construct(List<T> keys) {
+        mphf = new HollowTrieMonotoneMinimalPerfectHashFunction<T>(keys, strategy);
     }
 
     @Override
-    long performQuery(String key) {
+    long performQuery(T key) {
         return mphf.getLong(key);
     }
 }

@@ -1,14 +1,19 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import it.unimi.dsi.bits.TransformationStrategies;
+import it.unimi.dsi.bits.TransformationStrategy;
 import it.unimi.dsi.sux4j.mph.TwoStepsLcpMonotoneMinimalPerfectHashFunction;
 
 import java.io.IOException;
 import java.util.List;
 
-public class TwoStepsLcpContender extends Contender {
-    TwoStepsLcpMonotoneMinimalPerfectHashFunction.Builder<String> mphfBuilder;
-    TwoStepsLcpMonotoneMinimalPerfectHashFunction<String> mphf;
+public class TwoStepsLcpContender<T> extends Contender<T> {
+    TwoStepsLcpMonotoneMinimalPerfectHashFunction.Builder<T> mphfBuilder;
+    TwoStepsLcpMonotoneMinimalPerfectHashFunction<T> mphf;
+    private final TransformationStrategy<T> strategy;
+
+    public TwoStepsLcpContender(TransformationStrategy<T> strategy) {
+        this.strategy = strategy;
+    }
 
     @Override
     String name() {
@@ -21,15 +26,15 @@ public class TwoStepsLcpContender extends Contender {
     }
 
     @Override
-    void beforeConstruction(List<String> keys) {
+    void beforeConstruction(List<T> keys) {
         mphfBuilder = new TwoStepsLcpMonotoneMinimalPerfectHashFunction.Builder<>();
         mphfBuilder.keys(keys);
         mphfBuilder.numKeys(keys.size());
-        mphfBuilder.transform(TransformationStrategies.prefixFreeUtf16());
+        mphfBuilder.transform(strategy);
     }
 
     @Override
-    void construct(List<String> keys) {
+    void construct(List<T> keys) {
         try {
             mphf = mphfBuilder.build();
         } catch (IOException e) {
@@ -38,7 +43,7 @@ public class TwoStepsLcpContender extends Contender {
     }
 
     @Override
-    long performQuery(String key) {
+    long performQuery(T key) {
         return mphf.getLong(key);
     }
 }

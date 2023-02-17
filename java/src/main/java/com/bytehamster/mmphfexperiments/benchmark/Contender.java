@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Contender {
+public abstract class Contender<T> {
     public static int numQueries = 100000;
     public static String dataset = "unknown";
 
     abstract String name();
     abstract long sizeBits();
-    abstract void construct(List<String> keys);
+    abstract void construct(List<T> keys);
 
-    void beforeConstruction(List<String> keys) { }
-    abstract long performQuery(String key);
+    void beforeConstruction(List<T> keys) { }
+    abstract long performQuery(T key);
 
-    public void run(List<String> keys) {
+    public void run(List<T> keys) {
         int N = keys.size();
         System.out.println("Contender: " + (name().contains(" ") ? name().substring(0, name().indexOf(' ')) : name()));
         beforeConstruction(keys);
@@ -44,7 +44,7 @@ public abstract class Contender {
         long queryTime = 0;
         if (numQueries > 0) {
             System.out.println("Preparing query plan");
-            List<String> queryPlan = new ArrayList<>();
+            List<T> queryPlan = new ArrayList<>();
             Random random = new Random();
             for (int i = 0; i < numQueries; i++) {
                 queryPlan.add(keys.get(random.nextInt(N)));
@@ -72,13 +72,13 @@ public abstract class Contender {
                 + " N=" + N);
     }
 
-    void doPerformQueries(List<String> keys) {
-        for (String key : keys) {
+    void doPerformQueries(List<T> keys) {
+        for (T key : keys) {
             performQuery(key);
         }
     }
 
-    void doPerformTest(List<String> keys) {
+    void doPerformTest(List<T> keys) {
         for (int i = 0; i < keys.size(); i++) {
             long retrieved = performQuery(keys.get(i));
             if (retrieved != i) {

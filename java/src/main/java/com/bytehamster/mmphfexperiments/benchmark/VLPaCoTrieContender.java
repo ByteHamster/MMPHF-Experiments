@@ -1,13 +1,18 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import it.unimi.dsi.bits.TransformationStrategies;
+import it.unimi.dsi.bits.TransformationStrategy;
 import it.unimi.dsi.sux4j.mph.VLPaCoTrieDistributorMonotoneMinimalPerfectHashFunction;
 
 import java.io.IOException;
 import java.util.List;
 
-public class VLPaCoTrieContender extends Contender {
-    VLPaCoTrieDistributorMonotoneMinimalPerfectHashFunction<String> mphf;
+public class VLPaCoTrieContender<T> extends Contender<T> {
+    VLPaCoTrieDistributorMonotoneMinimalPerfectHashFunction<T> mphf;
+    private final TransformationStrategy<T> strategy;
+
+    public VLPaCoTrieContender(TransformationStrategy<T> strategy) {
+        this.strategy = strategy;
+    }
 
     @Override
     String name() {
@@ -20,16 +25,16 @@ public class VLPaCoTrieContender extends Contender {
     }
 
     @Override
-    void construct(List<String> keys) {
+    void construct(List<T> keys) {
         try {
-            mphf = new VLPaCoTrieDistributorMonotoneMinimalPerfectHashFunction<>(keys, TransformationStrategies.prefixFreeUtf16());
+            mphf = new VLPaCoTrieDistributorMonotoneMinimalPerfectHashFunction<>(keys, strategy);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    long performQuery(String key) {
+    long performQuery(T key) {
         return mphf.getLong(key);
     }
 }

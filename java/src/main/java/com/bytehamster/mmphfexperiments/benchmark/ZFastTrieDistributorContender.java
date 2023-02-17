@@ -1,14 +1,19 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import it.unimi.dsi.bits.TransformationStrategies;
+import it.unimi.dsi.bits.TransformationStrategy;
 import it.unimi.dsi.sux4j.mph.ZFastTrieDistributorMonotoneMinimalPerfectHashFunction;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ZFastTrieDistributorContender extends Contender {
-    ZFastTrieDistributorMonotoneMinimalPerfectHashFunction.Builder<String> mphfBuilder;
-    ZFastTrieDistributorMonotoneMinimalPerfectHashFunction<String> mphf;
+public class ZFastTrieDistributorContender<T> extends Contender<T> {
+    ZFastTrieDistributorMonotoneMinimalPerfectHashFunction.Builder<T> mphfBuilder;
+    ZFastTrieDistributorMonotoneMinimalPerfectHashFunction<T> mphf;
+    private final TransformationStrategy<T> strategy;
+
+    public ZFastTrieDistributorContender(TransformationStrategy<T> strategy) {
+        this.strategy = strategy;
+    }
 
     @Override
     String name() {
@@ -21,14 +26,14 @@ public class ZFastTrieDistributorContender extends Contender {
     }
 
     @Override
-    void beforeConstruction(List<String> keys) {
+    void beforeConstruction(List<T> keys) {
         mphfBuilder = new ZFastTrieDistributorMonotoneMinimalPerfectHashFunction.Builder<>();
         mphfBuilder.keys(keys);
-        mphfBuilder.transform(TransformationStrategies.prefixFreeUtf16());
+        mphfBuilder.transform(strategy);
     }
 
     @Override
-    void construct(List<String> keys) {
+    void construct(List<T> keys) {
         try {
             mphf = mphfBuilder.build();
         } catch (IOException e) {
@@ -37,7 +42,7 @@ public class ZFastTrieDistributorContender extends Contender {
     }
 
     @Override
-    long performQuery(String key) {
+    long performQuery(T key) {
         return mphf.getLong(key);
     }
 }

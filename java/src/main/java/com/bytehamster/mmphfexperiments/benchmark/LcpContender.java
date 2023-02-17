@@ -1,14 +1,19 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import it.unimi.dsi.bits.TransformationStrategies;
+import it.unimi.dsi.bits.TransformationStrategy;
 import it.unimi.dsi.sux4j.mph.LcpMonotoneMinimalPerfectHashFunction;
 
 import java.io.IOException;
 import java.util.List;
 
-public class LcpContender extends Contender {
-    LcpMonotoneMinimalPerfectHashFunction.Builder<String> mphfBuilder;
-    LcpMonotoneMinimalPerfectHashFunction<String> mphf;
+public class LcpContender<T> extends Contender<T> {
+    LcpMonotoneMinimalPerfectHashFunction.Builder<T> mphfBuilder;
+    LcpMonotoneMinimalPerfectHashFunction<T> mphf;
+    private final TransformationStrategy<T> strategy;
+
+    public LcpContender(TransformationStrategy<T> strategy) {
+        this.strategy = strategy;
+    }
 
     @Override
     String name() {
@@ -21,15 +26,15 @@ public class LcpContender extends Contender {
     }
 
     @Override
-    void beforeConstruction(List<String> keys) {
+    void beforeConstruction(List<T> keys) {
         mphfBuilder = new LcpMonotoneMinimalPerfectHashFunction.Builder<>();
         mphfBuilder.keys(keys);
         mphfBuilder.numKeys(keys.size());
-        mphfBuilder.transform(TransformationStrategies.prefixFreeUtf16());
+        mphfBuilder.transform(strategy);
     }
 
     @Override
-    void construct(List<String> keys) {
+    void construct(List<T> keys) {
         try {
             mphf = mphfBuilder.build();
         } catch (IOException e) {
@@ -38,7 +43,7 @@ public class LcpContender extends Contender {
     }
 
     @Override
-    long performQuery(String key) {
+    long performQuery(T key) {
         return mphf.getLong(key);
     }
 }
