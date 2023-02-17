@@ -5,7 +5,7 @@
 
 class DirectRankStoringContender : public Contender<uint64_t> {
     public:
-        DirectRankStoringMmphf<SuccinctPgmBucketMapper> *mmphf = nullptr;
+        DirectRankStoringMmphf<SuccinctPGMBucketMapper> *mmphf = nullptr;
 
         DirectRankStoringContender() = default;
 
@@ -16,7 +16,7 @@ class DirectRankStoringContender : public Contender<uint64_t> {
         }
 
         void construct(const std::vector<uint64_t> &keys) override {
-            mmphf = new DirectRankStoringMmphf<SuccinctPgmBucketMapper>(keys);
+            mmphf = new DirectRankStoringMmphf<SuccinctPGMBucketMapper>(keys);
         }
 
         size_t sizeBits() override {
