@@ -6,8 +6,11 @@ import com.bytehamster.mmphfexperiments.benchmark.HollowTrieContender;
 import com.bytehamster.mmphfexperiments.benchmark.HollowTrieDistContender;
 import com.bytehamster.mmphfexperiments.benchmark.LcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.PaCoTrieContender;
+import com.bytehamster.mmphfexperiments.benchmark.Sux4jSetup;
+import com.bytehamster.mmphfexperiments.benchmark.TwoStepsLcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.VLLcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.VLPaCoTrieContender;
+import com.bytehamster.mmphfexperiments.benchmark.ZFastTrieDistributorContender;
 
 import java.io.File;
 import java.util.List;
@@ -56,13 +59,15 @@ public class Main {
         }
         Contender.dataset = new File(filename).getName();
 
+        Sux4jSetup.setup();
+
         new HollowTrieContender().run(input);
         new HollowTrieDistContender().run(input);
         new LcpContender().run(input);
         new PaCoTrieContender().run(input);
-        //new TwoStepsLcpContender().run(input);
+        new TwoStepsLcpContender().run(input);
         new VLLcpContender().run(input);
         new VLPaCoTrieContender().run(input);
-        //new ZFastTrieDistributorContender().run(input);
+        new ZFastTrieDistributorContender().run(input);
     }
 }

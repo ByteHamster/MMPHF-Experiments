@@ -28,11 +28,16 @@ public abstract class Contender {
         }
         System.out.println("Constructing");
 
-        long begin = System.currentTimeMillis();
-        construct(keys);
-        long end = System.currentTimeMillis();
-        long constructionTime = end - begin;
-
+        long constructionTime;
+        try {
+            long begin = System.currentTimeMillis();
+            construct(keys);
+            long end = System.currentTimeMillis();
+            constructionTime = end - begin;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return;
+        }
         System.out.println("Testing");
         doPerformTest(keys);
 
@@ -51,9 +56,9 @@ public abstract class Contender {
                 throw new RuntimeException(e);
             }
             System.out.println("Querying");
-            begin = System.currentTimeMillis();
+            long begin = System.currentTimeMillis();
             doPerformQueries(queryPlan);
-            end = System.currentTimeMillis();
+            long end = System.currentTimeMillis();
             queryTime = end - begin;
         }
         double bitsPerElement = (double) sizeBits() / N;

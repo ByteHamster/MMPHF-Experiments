@@ -1,10 +1,7 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import it.unimi.dsi.bits.TransformationStrategies;
 import it.unimi.dsi.sux4j.mph.LcpMonotoneMinimalPerfectHashFunction;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +22,6 @@ public class LcpContender extends Contender {
 
     @Override
     void beforeConstruction(List<String> keys) {
-        ((Logger) LoggerFactory.getLogger(LcpMonotoneMinimalPerfectHashFunction.class)).setLevel(Level.OFF);
         mphfBuilder = new LcpMonotoneMinimalPerfectHashFunction.Builder<>();
         mphfBuilder.keys(keys);
         mphfBuilder.numKeys(keys.size());
