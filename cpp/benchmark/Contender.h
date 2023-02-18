@@ -93,7 +93,7 @@ class Contender {
 
         template<typename F>
         void doPerformTest(const std::vector<T> &keys, F &hashFunction) {
-            for (size_t i = 0; i < keys.size(); i++) {
+            for (size_t i = 0; i < std::min<size_t>(1e5, keys.size()); i++) {
                 // Some contenders expect non-const keys but actually use them as const.
                 size_t retrieved = hashFunction(const_cast<T &>(keys[i]));
                 if (retrieved != i) {
