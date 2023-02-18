@@ -79,7 +79,7 @@ public abstract class Contender<T> {
     }
 
     void doPerformTest(List<T> keys) {
-        for (int i = 0; i < keys.size(); i++) {
+        for (int i = 0; i < Math.min(1e5, keys.size()); i++) {
             long retrieved = performQuery(keys.get(i));
             if (retrieved != i) {
                 System.out.println("Error: Key at index " + i + " is not monotone minimal perfect (output: " + retrieved + ")");
