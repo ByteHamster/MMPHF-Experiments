@@ -29,3 +29,7 @@ target_link_libraries(PerfectHashingCompetitors INTERFACE pathDecomposedTries)
 add_executable(Comparison comparison.cpp)
 target_link_libraries(Comparison PRIVATE PerfectHashingCompetitors)
 target_compile_features(Comparison PRIVATE cxx_std_20)
+
+add_executable(GenerateData generateData.cpp)
+target_link_libraries(GenerateData PRIVATE tlx ips2ra)
+target_compile_features(GenerateData PRIVATE cxx_std_20)
