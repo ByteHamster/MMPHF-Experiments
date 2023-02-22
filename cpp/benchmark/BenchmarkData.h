@@ -27,12 +27,12 @@ std::vector<std::string> loadStringFile(std::string &filename, size_t maxStrings
 }
 
 std::vector<uint64_t> loadIntegerFile(std::string &filename, size_t maxN) {
-    std::cout<<"Loading input file"<<std::endl;
     std::ifstream fileIn(filename, std::ios::in | std::ios::binary);
     if (!fileIn) throw std::system_error(errno, std::system_category(), "failed to open " + filename);
     size_t size = 0;
     fileIn.read(reinterpret_cast<char *>(&size), sizeof(size_t));
     size = std::min(size, maxN);
+    std::cout<<"Loading input file of size "<<size<<std::endl;
     std::vector<uint64_t> inputData(size);
     fileIn.read(reinterpret_cast<char *>(inputData.data()), size * sizeof(uint64_t));
     fileIn.close();

@@ -6,18 +6,19 @@ if [ "$#" -ne 3 ]; then
     exit 1
 fi
 
-hostname
-
 pathToDatasetsFolder=$1
 pathToCppBinary=$2
 pathToJarFile=$3
 
 function benchmarkDataset() {
-    $pathToCppBinary $@ --numQueries 10M
-    java -jar $pathToJarFile $@ --numQueries 10000000
+    $pathToCppBinary $@ --numQueries 5M
+    java -Xmx64G -jar $pathToJarFile $@ --numQueries 5000000
 }
 
-benchmarkDataset --type strings --filename "$pathToDatasetsFolder/trec-title.terms"
+hostname
+strings $pathToCppBinary | grep " -m"
+
+benchmarkDataset --type strings --filename "$pathToDatasetsFolder/dna-31-mer.txt"
 benchmarkDataset --type strings --filename "$pathToDatasetsFolder/trec-text.terms"
 benchmarkDataset --type strings --filename "$pathToDatasetsFolder/uk-2007-05.urls"
 
