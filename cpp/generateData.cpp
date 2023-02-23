@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ips2ra.hpp>
 #include <random>
+#include <unordered_set>
 
 int main(int argc, char** argv) {
     size_t N = 1000000;
@@ -48,14 +49,22 @@ int main(int argc, char** argv) {
     } else if (type == "normal") {
         std::mt19937_64 rng(42);
         std::normal_distribution<double> dist(1e15, 1e10);
-        for (size_t i = 0; i < N; i++) {
-            data.push_back(dist(rng));
+        std::unordered_set<uint64_t> keys;
+        keys.reserve(N);
+        while (data.size() < N) {
+            auto key = dist(rng);
+            if (keys.insert(key).second)
+                data.push_back(key);
         }
     } else if (type == "exponential") {
         std::mt19937_64 rng(42);
         std::exponential_distribution<double> dist(1.0);
-        for (size_t i = 0; i < N; i++) {
-            data.push_back(1e15 * dist(rng));
+        std::unordered_set<uint64_t> keys;
+        keys.reserve(N);
+        while (data.size() < N) {
+            auto key = 1e15 * dist(rng);
+            if (keys.insert(key).second)
+                data.push_back(key);
         }
     } else {
         cmd.print_usage();
