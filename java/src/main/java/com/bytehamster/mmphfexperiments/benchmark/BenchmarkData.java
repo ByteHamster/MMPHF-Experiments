@@ -33,10 +33,10 @@ public class BenchmarkData {
     }
 
     public static List<Long> loadIntegerFile(String filename, int maxInts) {
-        System.out.println("Loading input file");
         List<Long> inputData = new ArrayList<>();
         try (DataInputStream fis = new DataInputStream(Files.newInputStream(Paths.get(filename)))) {
             long n = fis.readLong();
+            System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
                 inputData.add(fis.readLong());
                 if (inputData.size() >= maxInts) {
