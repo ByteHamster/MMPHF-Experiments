@@ -47,9 +47,9 @@ int main(int argc, char** argv) {
         }
     } else if (type == "normal") {
         std::mt19937_64 rng(42);
-        std::normal_distribution<double> dist(1.0);
+        std::normal_distribution<double> dist(1e15, 1e10);
         for (size_t i = 0; i < N; i++) {
-            data.push_back(1e15 + 1e15 * dist(rng));
+            data.push_back(dist(rng));
         }
     } else if (type == "exponential") {
         std::mt19937_64 rng(42);
