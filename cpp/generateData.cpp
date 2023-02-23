@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     tlx::CmdlineParser cmd;
     cmd.add_bytes('n', "N", N, "Number of objects to generate");
     cmd.add_string('f', "filename", filename, "Output filename");
-    cmd.add_string('t', "type", type, "Type of data to generate. Values: uniform, gap");
+    cmd.add_string('t', "type", type, "Type of data to generate. Values: uniform, gap, normal, exponential");
 
     if (!cmd.process(argc, argv)) {
         return 1;
@@ -44,6 +44,18 @@ int main(int argc, char** argv) {
             size_t indexToRemove = dist(rng);
             data[indexToRemove] = data.back();
             data.pop_back();
+        }
+    } else if (type == "normal") {
+        std::mt19937_64 rng(42);
+        std::normal_distribution<double> dist(1.0);
+        for (size_t i = 0; i < N; i++) {
+            data.push_back(1e15 + 1e15 * dist(rng));
+        }
+    } else if (type == "exponential") {
+        std::mt19937_64 rng(42);
+        std::exponential_distribution<double> dist(1.0);
+        for (size_t i = 0; i < N; i++) {
+            data.push_back(1e15 * dist(rng));
         }
     } else {
         cmd.print_usage();
