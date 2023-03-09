@@ -22,7 +22,7 @@ public class Main {
         System.err.println("-n: Truncate input file to only this number of strings if it is longer");
         System.err.println("--numQueries: Number of queries to perform");
         System.err.println("--filename: Input data set to load. Format depending on --type");
-        System.err.println("--type: Input data set format. strings: list of strings separated by newlines. integers: raw array of 64 bit integers, first one is the length");
+        System.err.println("--type: Input data set format. strings, int64, int32");
     }
 
     public static void main(String[] args) {
@@ -75,8 +75,16 @@ public class Main {
             new VLLcpContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
             new VLPaCoTrieContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
             new ZFastTrieDistributorContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-        } else if (type.equals("integers")) {
-            List<Long> input = BenchmarkData.loadIntegerFile(filename, maxN);
+        } else {
+            List<Long> input;
+            if (type.equals("int64")) {
+                input = BenchmarkData.loadInt64File(filename, maxN);
+            } else if (type.equals("int32")) {
+                input = BenchmarkData.loadInt32File(filename, maxN);
+            } else {
+                printUsage();
+                return;
+            }
             if (input.size() < 2) {
                 System.out.println("Input file does not contain integers");
                 return;
@@ -89,8 +97,6 @@ public class Main {
             new VLLcpContender<Long>(TransformationStrategies.fixedLong()).run(input);
             new VLPaCoTrieContender<Long>(TransformationStrategies.fixedLong()).run(input);
             new ZFastTrieDistributorContender<Long>(TransformationStrategies.fixedLong()).run(input);
-        } else {
-            printUsage();
         }
     }
 }

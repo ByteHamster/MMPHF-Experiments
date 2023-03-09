@@ -32,13 +32,33 @@ public class BenchmarkData {
         return Collections.unmodifiableList(inputData);
     }
 
-    public static List<Long> loadIntegerFile(String filename, int maxInts) {
+    public static List<Long> loadInt64File(String filename, int maxInts) {
         List<Long> inputData = new ArrayList<>();
         try (DataInputStream fis = new DataInputStream(Files.newInputStream(Paths.get(filename)))) {
             long n = fis.readLong();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
                 inputData.add(fis.readLong());
+                if (inputData.size() >= maxInts) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Sorting input data");
+        Collections.sort(inputData);
+        System.out.println("Loaded " + inputData.size() + " integers");
+        return Collections.unmodifiableList(inputData);
+    }
+
+    public static List<Long> loadInt32File(String filename, int maxInts) {
+        List<Long> inputData = new ArrayList<>();
+        try (DataInputStream fis = new DataInputStream(Files.newInputStream(Paths.get(filename)))) {
+            int n = fis.readInt();
+            System.out.println("Loading input file of size " + n);
+            for (int i = 0; i < n; i++) {
+                inputData.add((long) fis.readInt());
                 if (inputData.size() >= maxInts) {
                     break;
                 }

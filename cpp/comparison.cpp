@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     cmd.add_bytes('n', "maxN", maxN, "Truncate input file to only this number of strings if it is longer");
     cmd.add_bytes('q', "numQueries", numQueries, "Number of queries to perform");
     cmd.add_string('f', "filename", filename, "Input data set to load. List of strings, separated by newlines OR binary file of integers, if type==integers");
-    cmd.add_string('t', "type", type, "Type of data to read from the file. Values: strings, integers");
+    cmd.add_string('t', "type", type, "Type of data to read from the file. Values: strings, int64, int32");
 
     if (!cmd.process(argc, argv)) {
         return 1;
@@ -38,7 +38,15 @@ int main(int argc, char** argv) {
         hollowTrieContenderRunner(input);
         pathDecomposedTrieContenderRunner(input);
     } else {
-        std::vector<uint64_t> input = loadIntegerFile(filename, maxN);
+        std::vector<uint64_t> input;
+        if (type == "int64") {
+            input = loadInt64File(filename, maxN);
+        } else if (type == "int32") {
+            input = loadInt32File(filename, maxN);
+        } else {
+            std::cerr<<"Unknown input type"<<std::endl;
+            return 1;
+        }
         if (input.size() < 2) {
             std::cerr<<"Input file does not contain integers"<<std::endl;
             return 1;
