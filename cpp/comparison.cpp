@@ -1,9 +1,9 @@
 #include <tlx/cmdline_parser.hpp>
-#include "benchmark/RecursiveDirectRankStoringContender.h"
 #include "benchmark/CentroidHollowTrieContender.h"
 #include "benchmark/HollowTrieContender.h"
 #include "benchmark/PathDecomposedTrieContender.h"
-#include "benchmark/DirectRankStoringContender.h"
+#include "benchmark/LeMonHashContender.h"
+#include "benchmark/LeMonHashVLContender.h"
 
 int main(int argc, char** argv) {
     size_t maxN = std::numeric_limits<size_t>::max();
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
             return 1;
         }
 
-        recursiveDirectRankStoringContenderRunner(input);
+        leMonHashVLContenderRunner(input);
         centroidHollowTrieContenderRunner(input);
         hollowTrieContenderRunner(input);
         pathDecomposedTrieContenderRunner(input);
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
             std::cerr<<"Input file does not contain integers"<<std::endl;
             return 1;
         }
-        directRankStoringContenderRunner(input);
+        leMonHashContenderRunner(input);
 
         std::cout<<"Converting to strings"<<std::endl;
         std::vector<std::string> inputAsString;
@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
             inputAsString.emplace_back((char*) &swapped, sizeof(uint64_t));
         }
 
-        recursiveDirectRankStoringContenderRunner(inputAsString);
+        leMonHashVLContenderRunner(inputAsString);
         centroidHollowTrieContenderRunner(inputAsString);
         hollowTrieContenderRunner(inputAsString);
         pathDecomposedTrieContenderRunner(inputAsString);

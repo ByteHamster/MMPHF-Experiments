@@ -1,5 +1,5 @@
 [submodule "cpp/extlib/directRankStoring"]
-	path = cpp/extlib/directRankStoring
+	path = cpp/extlib/LeMonHash
 	url = git@github.com:ByteHamster/DirectRankStoring.git
 [submodule "cpp/extlib/pathDecomposedTries"]
 	path = cpp/extlib/pathDecomposedTries

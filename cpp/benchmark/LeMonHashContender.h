@@ -1,22 +1,22 @@
 #pragma once
 
 #include "Contender.h"
-#include <DirectRankStoring.hpp>
+#include <LeMonHash.hpp>
 
-class DirectRankStoringContender : public Contender<uint64_t> {
+class LeMonHashContender : public Contender<uint64_t> {
     public:
-        DirectRankStoringMmphf<SuccinctPGMBucketMapper> *mmphf = nullptr;
+        LeMonHash<SuccinctPGMBucketMapper> *mmphf = nullptr;
 
-        DirectRankStoringContender() = default;
+        LeMonHashContender() = default;
 
-        ~DirectRankStoringContender() override = default;
+        ~LeMonHashContender() override = default;
 
         std::string name() override {
-            return std::string("DirectRankStoring");
+            return std::string("LeMonHash");
         }
 
         void construct(const std::vector<uint64_t> &keys) override {
-            mmphf = new DirectRankStoringMmphf<SuccinctPGMBucketMapper>(keys);
+            mmphf = new LeMonHash<SuccinctPGMBucketMapper>(keys);
         }
 
         size_t sizeBits() override {
@@ -32,6 +32,6 @@ class DirectRankStoringContender : public Contender<uint64_t> {
         }
 };
 
-void directRankStoringContenderRunner(std::vector<uint64_t> &keys) {
-    { DirectRankStoringContender().run(keys); }
+void leMonHashContenderRunner(std::vector<uint64_t> &keys) {
+    { LeMonHashContender().run(keys); }
 }
