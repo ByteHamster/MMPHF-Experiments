@@ -66,6 +66,12 @@ int main(int argc, char** argv) {
             if (keys.insert(key).second)
                 data.push_back(key);
         }
+    } else if (type == "steps") {
+        size_t stepWidth = 512;
+        size_t stepHeight = UINT64_MAX / (N / stepWidth + 1);
+        for (size_t i = 0; i < N; i++) {
+            data.push_back(i % stepWidth + (i / stepWidth) * stepHeight);
+        }
     } else {
         cmd.print_usage();
         return 1;
