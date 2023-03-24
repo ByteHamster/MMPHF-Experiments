@@ -33,3 +33,7 @@ target_compile_features(Comparison PRIVATE cxx_std_20)
 add_executable(GenerateData generateData.cpp)
 target_link_libraries(GenerateData PRIVATE tlx ips2ra)
 target_compile_features(GenerateData PRIVATE cxx_std_20)
+
+add_executable(PlotData plotData.cpp)
+target_link_libraries(PlotData PRIVATE tlx ByteHamsterUtil)
+target_compile_features(PlotData PRIVATE cxx_std_20)
