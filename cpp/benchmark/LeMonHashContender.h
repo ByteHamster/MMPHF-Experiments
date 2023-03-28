@@ -20,7 +20,7 @@ class LeMonHashContender : public Contender<uint64_t> {
         }
 
         size_t sizeBits() override {
-            return mmphf->spaceBits(false);
+            return mmphf->spaceBits(true);
         }
 
         void performQueries(const std::vector<uint64_t> &keys) override {
