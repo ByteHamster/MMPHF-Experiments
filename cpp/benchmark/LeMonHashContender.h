@@ -5,7 +5,7 @@
 
 class LeMonHashContender : public Contender<uint64_t> {
     public:
-        lemonhash::LeMonHash<lemonhash::SuccinctPGMBucketMapper> *mmphf = nullptr;
+        lemonhash::LeMonHash<> *mmphf = nullptr;
 
         LeMonHashContender() = default;
 
@@ -16,7 +16,7 @@ class LeMonHashContender : public Contender<uint64_t> {
         }
 
         void construct(const std::vector<uint64_t> &keys) override {
-            mmphf = new lemonhash::LeMonHash<lemonhash::SuccinctPGMBucketMapper>(keys);
+            mmphf = new lemonhash::LeMonHash<>(keys);
         }
 
         size_t sizeBits() override {

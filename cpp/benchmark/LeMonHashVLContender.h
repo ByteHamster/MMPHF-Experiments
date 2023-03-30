@@ -5,7 +5,7 @@
 
 class LeMonHashVLContender : public Contender<std::string> {
     public:
-        lemonhash::LeMonHashVL *mmphf = nullptr;
+        lemonhash::LeMonHashVL<> *mmphf = nullptr;
 
         LeMonHashVLContender() = default;
 
@@ -16,7 +16,7 @@ class LeMonHashVLContender : public Contender<std::string> {
         }
 
         void construct(const std::vector<std::string> &keys) override {
-            mmphf = new lemonhash::LeMonHashVL(keys);
+            mmphf = new lemonhash::LeMonHashVL<>(keys);
         }
 
         size_t sizeBits() override {
