@@ -1,6 +1,5 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -17,7 +16,13 @@ public class BenchmarkData {
         try {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine()) {
-                inputData.add(scanner.nextLine());
+                String line = scanner.nextLine();
+                if (!inputData.isEmpty()) {
+                    if (inputData.get(inputData.size() - 1).compareTo(line) > 0) {
+                        throw new RuntimeException("Not sorted or duplicate key");
+                    }
+                }
+                inputData.add(line);
                 if (inputData.size() >= maxStrings) {
                     break;
                 }
@@ -25,49 +30,58 @@ public class BenchmarkData {
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.exit(1);
         }
-        System.out.println("Sorting input data");
-        Collections.sort(inputData);
         System.out.println("Loaded " + inputData.size() + " strings");
         return Collections.unmodifiableList(inputData);
     }
 
     public static List<Long> loadInt64File(String filename, int maxInts) {
         List<Long> inputData = new ArrayList<>();
-        try (DataInputStream fis = new DataInputStream(Files.newInputStream(Paths.get(filename)))) {
+        try (LongStream fis = new LongStream(Files.newInputStream(Paths.get(filename)))) {
             long n = fis.readLong();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
-                inputData.add(fis.readLong());
+                long l = fis.readLong();
+                if (!inputData.isEmpty()) {
+                    if (inputData.get(inputData.size() - 1) >= l) {
+                        throw new RuntimeException("Not sorted or duplicate key");
+                    }
+                }
+                inputData.add(l);
                 if (inputData.size() >= maxInts) {
                     break;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
-        System.out.println("Sorting input data");
-        Collections.sort(inputData);
         System.out.println("Loaded " + inputData.size() + " integers");
         return Collections.unmodifiableList(inputData);
     }
 
     public static List<Long> loadInt32File(String filename, int maxInts) {
         List<Long> inputData = new ArrayList<>();
-        try (DataInputStream fis = new DataInputStream(Files.newInputStream(Paths.get(filename)))) {
+        try (IntStream fis = new IntStream(Files.newInputStream(Paths.get(filename)))) {
             int n = fis.readInt();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
-                inputData.add((long) fis.readInt());
+                long l = fis.readInt();
+                if (!inputData.isEmpty()) {
+                    if (inputData.get(inputData.size() - 1) >= l) {
+                        throw new RuntimeException("Not sorted or duplicate key");
+                    }
+                }
+                inputData.add(l);
                 if (inputData.size() >= maxInts) {
                     break;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
-        System.out.println("Sorting input data");
-        Collections.sort(inputData);
         System.out.println("Loaded " + inputData.size() + " integers");
         return Collections.unmodifiableList(inputData);
     }

@@ -26,8 +26,6 @@ std::vector<std::string> loadStringFile(std::string &filename, size_t maxStrings
             break;
         }
     }
-    std::cout<<"Sorting input data"<<std::endl;
-    std::sort(inputData.begin(), inputData.end());
     std::cout<<"Loaded "<<inputData.size()<<" strings"<<std::endl;
     return inputData;
 }
