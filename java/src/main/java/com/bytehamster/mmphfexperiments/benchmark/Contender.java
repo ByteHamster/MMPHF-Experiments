@@ -28,6 +28,7 @@ public abstract class Contender<T> {
             return;
         }
 
+        beforeConstruction(keys);
         System.out.println("Cooldown");
         try {
             Thread.sleep(3000);
