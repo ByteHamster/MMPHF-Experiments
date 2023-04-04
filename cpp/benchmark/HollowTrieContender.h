@@ -48,5 +48,5 @@ class HollowTrieContender : public Contender<std::string> {
 void hollowTrieContenderRunner(std::vector<std::string> &strings) {
     { HollowTrieContender<succinct::gamma_vector>().run(strings); }
     { HollowTrieContender<succinct::elias_fano_list>().run(strings); }
-    { HollowTrieContender<succinct::mapper::mappable_vector<uint16_t>>().run(strings); }
+    //{ HollowTrieContender<succinct::mapper::mappable_vector<uint16_t>>().run(strings); }
 }

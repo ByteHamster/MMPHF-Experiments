@@ -47,5 +47,5 @@ class PathDecomposedTrieContender : public Contender<std::string> {
 
 void pathDecomposedTrieContenderRunner(std::vector<std::string> &strings) {
     { PathDecomposedTrieContender<succinct::tries::vbyte_string_pool>().run(strings); }
-    { PathDecomposedTrieContender<succinct::tries::compressed_string_pool>().run(strings); }
+    //{ PathDecomposedTrieContender<succinct::tries::compressed_string_pool>().run(strings); }
 }
