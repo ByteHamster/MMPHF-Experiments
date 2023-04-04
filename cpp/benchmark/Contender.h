@@ -37,7 +37,7 @@ class Contender {
             beforeConstruction(keys);
 
             std::cout << "Cooldown" << std::endl;
-            usleep(1000*1000);
+            usleep(3000*1000);
             std::cout << "Constructing" << std::endl;
 
             std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -63,7 +63,7 @@ class Contender {
                     queryPlan.push_back(keys[prng(N)]);
                 }
                 std::cout << "Cooldown" << std::endl;
-                usleep(1000*1000);
+                usleep(3000*1000);
                 std::cout<<"Querying"<<std::endl;
                 begin = std::chrono::steady_clock::now();
                 performQueries(queryPlan);

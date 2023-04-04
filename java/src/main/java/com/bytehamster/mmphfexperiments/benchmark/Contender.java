@@ -20,9 +20,17 @@ public abstract class Contender<T> {
         System.out.println("Contender: " + (name().contains(" ") ? name().substring(0, name().indexOf(' ')) : name()));
         beforeConstruction(keys);
 
+        System.out.println("First construction run to warm up JIT compiler");
+        try {
+            construct(keys);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return;
+        }
+
         System.out.println("Cooldown");
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +59,7 @@ public abstract class Contender<T> {
             }
             System.out.println("Cooldown");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
