@@ -42,12 +42,7 @@ public class BenchmarkData {
             long n = fis.readLong();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
-                long l = fis.readLong();
-                if (!inputData.isEmpty()) {
-                    if (inputData.get(inputData.size() - 1) >= l) {
-                        throw new RuntimeException("Not sorted or duplicate key");
-                    }
-                }
+                long l = fis.readLong() + Long.MIN_VALUE;
                 inputData.add(l);
                 if (inputData.size() >= maxInts) {
                     break;
@@ -68,11 +63,6 @@ public class BenchmarkData {
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
                 long l = fis.readInt();
-                if (!inputData.isEmpty()) {
-                    if (inputData.get(inputData.size() - 1) >= l) {
-                        throw new RuntimeException("Not sorted or duplicate key");
-                    }
-                }
                 inputData.add(l);
                 if (inputData.size() >= maxInts) {
                     break;
