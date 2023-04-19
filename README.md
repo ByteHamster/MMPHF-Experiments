@@ -2,40 +2,47 @@
 
 Monotone Minimal Perfect Hashing competitors.
 
-### Cloning
+## Reproducing Experiments
+
+This repository contains the source code and our reproducibility artifacts for comparing different MMPHF constructions.
+
+We provide an easy to use Docker image to quickly reproduce our results.
+Alternatively, you can look at the `Dockerfile` to see all libraries, tools, and commands necessary to compile.
+
+#### Cloning the Repository
+
+This repository contains submodules.
+To clone the repository including submodules, use the following command.
 
 ```
-git clone git@github.com:ByteHamster/MMPHF-Experiments.git
-git submodule update --recursive --init 
+git clone --recursive https://github.com/ByteHamster/MMPHF-Experiments.git
 ```
 
-### Running C++ Competitors
+#### Building the Docker Image
 
-```
-mkdir cpp/build
-cd cpp/build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make
-./Comparison --help
-```
+Run the following command to build the Docker image.
+Building the image takes about 10 minutes, as some packages (including LaTeX for the plots) have to be installed.
 
-### Running Java Competitors
-
-```
-apt install ivy ant
-cd java
-mvn package
-java -jar target/MmphfExperiments-1.0-jar-with-dependencies.jar --help
+```bash
+docker build -t mmphf_experiments --no-cache .
 ```
 
-### Generating Plots
+Some compiler warnings (red) are expected when building dependencies and will not prevent building the image or running the experiments.
+Please ignore them!
 
-```
-cd plots
-make plots
+#### Running the Experiments
+Due to the long total running time of all experiments in our paper, we provide a run script for a highly simplified version of the experiments.
+Most importantly, we use a small, synthetic dataset (also due to licensing and download size).
+
+You can modify the benchmark scripts in `scripts/dockerVolume` if you want to change any parameters.
+This does not require the Docker image to recompile.
+The experiments can be started by using the following command:
+
+```bash
+docker run --interactive --tty -v "$(pwd)/scripts/dockerVolume:/opt/dockerVolume" mmphf_experiments /opt/dockerVolume/normal-distribution.sh
 ```
 
-If you have new plot data to plot, you need to install `sqlplot-tools` and run `make plotdata`.
+The resulting plots can be found in `scripts/dockerVolume` and have the file extension `.pdf`.
 
 ### License
 

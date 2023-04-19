@@ -1,0 +1,13 @@
+RESULT code_name=CentroidHollowTrie				paper_name=Centroid HT				attr=mark=x,color=colorCentroidHollowTrie,solid
+RESULT code_name=LeMonHashVL					paper_name=\textbf{LeMonHash-VL}	attr=mark=lemonVl,color=colorDirectRankStoring,solid
+RESULT code_name=LeMonHash						paper_name=\textbf{LeMonHash}		attr=mark=lemon,color=colorDirectRankStoring,solid
+RESULT code_name=HollowTrie						paper_name=Hollow					attr=mark=pentagon,color=colorHollowTrie,solid
+RESULT code_name=HollowTrieDistJava				paper_name=HTDist					attr=mark=asterisk,color=colorHollowTrieDist,solid
+RESULT code_name=HollowTrieJava					paper_name=Hollow					attr=mark=square,color=colorHollowTrie,solid
+RESULT code_name=LcpJava						paper_name=LCP						attr=mark=rightTriangle,color=colorLcp,solid
+RESULT code_name=PaCoTrieJava					paper_name=PaCo						attr=mark=|,color=colorPaCoTrieJava,solid
+RESULT code_name=VLPaCoTrieJava					paper_name=VLPaCo					attr=mark=+,color=colorPaCoTrieJava,solid
+RESULT code_name=PathDecomposedTrie				paper_name=Path Decomp.				attr=mark=flippedTriangle,color=colorPathDecomposedTrie,solid
+RESULT code_name=VLLcpJava						paper_name=VLLCP					attr=mark=triangle,color=colorVllcp,solid
+RESULT code_name=TwoStepsLcpJava				paper_name=LCP 2-step				attr=mark=leftTriangle,color=colorTwoStepsLcp,solid
+RESULT code_name=ZFastTrieDistributorJava		paper_name=ZFast					attr=mark=diamond,color=colorZFastTrieDistributor,solid
