@@ -10,3 +10,9 @@
 [submodule "java/sux4j"]
 	path = java/sux4j
 	url = https://github.com/vigna/Sux4J.git
+[submodule "extlib/sichash"]
+	path = extlib/sichash
+	url = https://github.com/ByteHamster/SicHash
+[submodule "cpp/extlib/sichash"]
+	path = cpp/extlib/sichash
+	url = https://github.com/ByteHamster/SicHash

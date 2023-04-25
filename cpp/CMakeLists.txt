@@ -14,6 +14,9 @@ target_compile_features(PerfectHashingCompetitors INTERFACE cxx_std_20)
 add_subdirectory(extlib/LeMonHash)
 target_link_libraries(PerfectHashingCompetitors INTERFACE LeMonHash)
 
+add_subdirectory(extlib/sichash)
+target_link_libraries(PerfectHashingCompetitors INTERFACE SicHash)
+
 # Doing it "properly" with add_subdirectory fails because both ds2i and path_decomposed_tries add the same submodule.
 option(SUCCINCT_USE_INTRINSICS "Use a set of intrinsics available on all x86-64 architectures" ON)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/extlib/pathDecomposedTries/succinct/succinct_config.hpp.in

@@ -4,6 +4,8 @@
 #include "benchmark/PathDecomposedTrieContender.h"
 #include "benchmark/LeMonHashContender.h"
 #include "benchmark/LeMonHashVLContender.h"
+#include "benchmark/nonMonotone/PTHashContender.h"
+#include "benchmark/nonMonotone/SicHashContender.h"
 
 int main(int argc, char** argv) {
     size_t maxN = std::numeric_limits<size_t>::max();
@@ -37,6 +39,8 @@ int main(int argc, char** argv) {
         centroidHollowTrieContenderRunner(input);
         hollowTrieContenderRunner(input);
         pathDecomposedTrieContenderRunner(input);
+        ptHashContenderRunner(input);
+        sicHashContenderRunner(input);
     } else {
         std::vector<uint64_t> input;
         if (type == "int64") {
@@ -52,6 +56,7 @@ int main(int argc, char** argv) {
             return 1;
         }
         leMonHashContenderRunner(input);
+        ptHashContenderRunner(input);
 
         std::cout<<"Converting to strings"<<std::endl;
         std::vector<std::string> inputAsString;
@@ -60,6 +65,7 @@ int main(int argc, char** argv) {
             uint64_t swapped = __builtin_bswap64(x);
             inputAsString.emplace_back((char*) &swapped, sizeof(uint64_t));
         }
+        sicHashContenderRunner(inputAsString);
 
         leMonHashVLContenderRunner(inputAsString);
         centroidHollowTrieContenderRunner(inputAsString);
