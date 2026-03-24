@@ -21,3 +21,5 @@ dsi-progress-logger = "0.8"
 [profile.release]
 opt-level = 3
 debug = false
+codegen-units = 1
+lto = "fat"
