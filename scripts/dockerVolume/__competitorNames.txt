@@ -11,3 +11,4 @@ RESULT code_name=PathDecomposedTrie				paper_name=Path Decomp.				attr=mark=flip
 RESULT code_name=VLLcpJava						paper_name=VLLCP					attr=mark=triangle,color=colorVllcp,solid
 RESULT code_name=TwoStepsLcpJava				paper_name=LCP 2-step				attr=mark=leftTriangle,color=colorTwoStepsLcp,solid
 RESULT code_name=ZFastTrieDistributorJava		paper_name=ZFast					attr=mark=diamond,color=colorZFastTrieDistributor,solid
+RESULT code_name=LcpMmphfRust					paper_name=\textbf{LcpMmphf (Rust)}	attr=mark=star,color=colorLcpMmphfRust,solid

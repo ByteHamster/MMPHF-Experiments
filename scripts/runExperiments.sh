@@ -1,18 +1,20 @@
 #!/bin/bash
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -ne 4 ]; then
     echo "Illegal number of parameters."
-    echo "Usage: runExperiments.sh pathToDatasetsFolder pathToCppBinary pathToJarFile"
+    echo "Usage: runExperiments.sh pathToDatasetsFolder pathToCppBinary pathToJarFile pathToRustBinary"
     exit 1
 fi
 
 pathToDatasetsFolder=$1
 pathToCppBinary=$2
 pathToJarFile=$3
+pathToRustBinary=$4
 
 function benchmarkDataset() {
     $pathToCppBinary $@ --numQueries 5M
     java -Xmx64G -jar $pathToJarFile $@ --numQueries 5000000
+    $pathToRustBinary $@ --numQueries 5000000
 }
 
 hostname
@@ -29,4 +31,3 @@ benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/osm_cellids_800M
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/uniform_uint64"
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/exponential_uint64"
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/normal_uint64"
-

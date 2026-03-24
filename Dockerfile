@@ -30,5 +30,13 @@ RUN rm -rf /opt/mmphf/java/extlib/sux4j/jars /opt/mmphf/java/extlib/sux4j/dist /
 RUN sed --in-place "s#<exclude org=\"org.apache.commons\" name=\"commons-lang3\"/>##g" /opt/mmphf/java/extlib/sux4j/ivy.xml
 RUN mvn package
 
+# Install Rust and build Rust experiments
+RUN apt-get install --assume-yes --no-install-recommends curl
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+COPY ./rust /opt/mmphf/rust
+WORKDIR /opt/mmphf/rust
+RUN cargo build --release
+
 # Actual benchmark
 CMD bash /opt/dockerVolume/normal-distribution.sh

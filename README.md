@@ -44,7 +44,12 @@ docker run --interactive --tty -v "$(pwd)/scripts/dockerVolume:/opt/dockerVolume
 
 The resulting plots can be found in `scripts/dockerVolume` and have the file extension `.pdf`.
 
+#### Competitors
+
+This fork adds the Rust-based `LcpMmphf` from [sux-rs](https://github.com/vigna/sux-rs) to the comparison.
+The Rust benchmark code is in the `rust/` directory and is built automatically by the Docker image.
+
 ### License
 
 The benchmark code is licensed under the [GPLv3](/LICENSE).
-The competitors (in the `cpp/extlib` and `java/extlib` directories) are licensed with their respective licenses.
+The competitors (in the `cpp/extlib`, `java/extlib`, and `rust/` directories) are licensed with their respective licenses.
