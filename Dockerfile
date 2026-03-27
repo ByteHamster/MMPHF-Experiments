@@ -21,7 +21,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release ..
 RUN cmake --build . -j 8
 
 # Build Java experiments
-RUN apt-get install --assume-yes --no-install-recommends openjdk-17-jdk ant maven
+RUN apt-get install --assume-yes --no-install-recommends openjdk-21-jdk ant maven
 RUN apt-get install --assume-yes --no-install-recommends ivy
 RUN ln -s -T /usr/share/java/ivy.jar /usr/share/ant/lib/ivy.jar
 COPY ./java /opt/mmphf/java
@@ -31,4 +31,4 @@ RUN sed --in-place "s#<exclude org=\"org.apache.commons\" name=\"commons-lang3\"
 RUN mvn package
 
 # Actual benchmark
-CMD bash /opt/dockerVolume/normal-distribution.sh
+CMD bash /opt/dockerVolume/uk-2007-05.sh
