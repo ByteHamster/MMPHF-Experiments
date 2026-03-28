@@ -4,7 +4,6 @@ import com.bytehamster.mmphfexperiments.benchmark.BenchmarkData;
 import com.bytehamster.mmphfexperiments.benchmark.Contender;
 import com.bytehamster.mmphfexperiments.benchmark.HollowTrieContender;
 import com.bytehamster.mmphfexperiments.benchmark.HollowTrieDistContender;
-import com.bytehamster.mmphfexperiments.benchmark.MaterializingByteArrayTransformationStrategy;
 import com.bytehamster.mmphfexperiments.benchmark.LcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.PaCoTrieContender;
 import com.bytehamster.mmphfexperiments.benchmark.Sux4jSetup;
@@ -13,7 +12,6 @@ import com.bytehamster.mmphfexperiments.benchmark.VLLcpContender;
 import com.bytehamster.mmphfexperiments.benchmark.VLPaCoTrieContender;
 import com.bytehamster.mmphfexperiments.benchmark.ZFastTrieDistributorContender;
 import it.unimi.dsi.bits.TransformationStrategies;
-import it.unimi.dsi.bits.TransformationStrategy;
 
 import java.io.File;
 import java.util.List;
@@ -69,9 +67,8 @@ public class Main {
                 System.out.println("Input file does not contain strings");
                 return;
             }
-            TransformationStrategy<byte[]> mat = MaterializingByteArrayTransformationStrategy.getInstance();
-            new HollowTrieContender<byte[]>(mat).run(input);
-            new HollowTrieDistContender<byte[]>(mat).run(input);
+            new HollowTrieContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new HollowTrieDistContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
             new LcpContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
             new PaCoTrieContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
             new TwoStepsLcpContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
