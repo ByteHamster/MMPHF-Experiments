@@ -22,16 +22,8 @@ public class BenchmarkData {
             );
             for (byte[] line : scanner) {
                 if (!inputData.isEmpty()) {
-                    if (
-                        java.util.Arrays.compareUnsigned(
-                            inputData.get(inputData.size() - 1),
-                            line
-                        ) >
-                        0
-                    ) {
-                        throw new RuntimeException(
-                            "Not sorted or duplicate key"
-                        );
+                    if (java.util.Arrays.compareUnsigned(inputData.get(inputData.size() - 1), line) > 0) {
+                        throw new RuntimeException("Not sorted or duplicate key");
                     }
                 }
                 inputData.add(line);
