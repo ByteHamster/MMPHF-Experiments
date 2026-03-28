@@ -18,6 +18,7 @@ use std::io::{BufRead, BufReader, Cursor};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use sux::func::{Lcp2MmphfInt, Lcp2MmphfStr, LcpMmphfInt, LcpMmphfStr};
+use sux::traits::{TryIntoUnaligned, Unaligned};
 use sux::utils::{FromSlice, LineLender};
 
 #[derive(Parser, Debug)]
@@ -147,8 +148,8 @@ fn bench_int64(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
     println!("Constructing");
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
-    let func: LcpMmphfInt<u64> =
-        LcpMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?;
+    let func: Unaligned<LcpMmphfInt<u64>> =
+        LcpMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -157,15 +158,12 @@ fn bench_int64(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
     for (i, &key) in keys[..check_n].iter().enumerate() {
         let got = func.get(key);
         if got != i {
-            bail!(
-                "Error: Key at index {i} is not monotone minimal perfect (output: {got})"
-            );
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
     }
 
     // Space
-    let bits_per_element =
-        func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
 
     // Query
     let mut query_ms: u64 = 0;
@@ -216,8 +214,8 @@ fn bench_strings(dataset: &str, keys: &[String], num_queries: usize) -> Result<(
     let lender = LineLender::new(BufReader::new(Cursor::new(blob.into_bytes())));
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
-    let func: LcpMmphfStr =
-        LcpMmphfStr::try_new(lender, n, &mut pl)?;
+    let func: Unaligned<LcpMmphfStr> =
+        LcpMmphfStr::try_new(lender, n, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
@@ -226,15 +224,12 @@ fn bench_strings(dataset: &str, keys: &[String], num_queries: usize) -> Result<(
     for (i, key) in keys[..check_n].iter().enumerate() {
         let got = func.get(key.as_str());
         if got != i {
-            bail!(
-                "Error: Key at index {i} is not monotone minimal perfect (output: {got})"
-            );
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
     }
 
     // Space
-    let bits_per_element =
-        func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
 
     // Query — pack query strings contiguously
     let mut query_ms: u64 = 0;
@@ -290,8 +285,8 @@ fn bench_int64_lcp2(dataset: &str, keys: &[u64], num_queries: usize) -> Result<(
     println!("Constructing");
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
-    let func: Lcp2MmphfInt<u64> =
-        Lcp2MmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?;
+    let func: Unaligned<Lcp2MmphfInt<u64>> =
+        Lcp2MmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -300,15 +295,12 @@ fn bench_int64_lcp2(dataset: &str, keys: &[u64], num_queries: usize) -> Result<(
     for (i, &key) in keys[..check_n].iter().enumerate() {
         let got = func.get(key);
         if got != i {
-            bail!(
-                "Error: Key at index {i} is not monotone minimal perfect (output: {got})"
-            );
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
     }
 
     // Space
-    let bits_per_element =
-        func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
 
     // Query
     let mut query_ms: u64 = 0;
@@ -359,8 +351,8 @@ fn bench_strings_lcp2(dataset: &str, keys: &[String], num_queries: usize) -> Res
     let lender = LineLender::new(BufReader::new(Cursor::new(blob.into_bytes())));
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
-    let func: Lcp2MmphfStr =
-        Lcp2MmphfStr::try_new(lender, n, &mut pl)?;
+    let func: Unaligned<Lcp2MmphfStr> =
+        Lcp2MmphfStr::try_new(lender, n, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
@@ -369,15 +361,12 @@ fn bench_strings_lcp2(dataset: &str, keys: &[String], num_queries: usize) -> Res
     for (i, key) in keys[..check_n].iter().enumerate() {
         let got = func.get(key.as_str());
         if got != i {
-            bail!(
-                "Error: Key at index {i} is not monotone minimal perfect (output: {got})"
-            );
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
     }
 
     // Space
-    let bits_per_element =
-        func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
 
     // Query — pack query strings contiguously
     let mut query_ms: u64 = 0;
