@@ -82,8 +82,8 @@ fn load_int64_file(path: &Path, max_n: usize) -> Result<Vec<u64>> {
 }
 
 /// Read a SOSD-format int32 binary file: little-endian u32 count, then
-/// N little-endian u32 values. Converts to u64.
-fn load_int32_file(path: &Path, max_n: usize) -> Result<Vec<u64>> {
+/// N little-endian u32 values.
+fn load_int32_file(path: &Path, max_n: usize) -> Result<Vec<u32>> {
     println!("Loading input file");
     let data = std::fs::read(path).with_context(|| format!("reading {}", path.display()))?;
     if data.len() < 4 {
@@ -102,10 +102,9 @@ fn load_int32_file(path: &Path, max_n: usize) -> Result<Vec<u64>> {
     }
     let mut keys = Vec::with_capacity(n);
     for chunk in data[4..4 + n * 4].chunks_exact(4) {
-        keys.push(u32::from_le_bytes(chunk.try_into().unwrap()) as u64);
+        keys.push(u32::from_le_bytes(chunk.try_into().unwrap()));
     }
     println!("Loaded {n} integers");
-    println!("Converting to uint64");
     for i in 1..keys.len() {
         if keys[i] <= keys[i - 1] {
             bail!("Not sorted or duplicate key");
@@ -335,6 +334,134 @@ fn bench_int64_lcp2(dataset: &str, keys: &[u64], num_queries: usize) -> Result<(
     Ok(())
 }
 
+/// Benchmark LcpMmphfInt on u32 keys.
+fn bench_int32(dataset: &str, keys: &[u32], num_queries: usize) -> Result<()> {
+    let n = keys.len();
+
+    println!("\nContender: LcpMmphfRust");
+
+    // Cooldown (matching C++/Java methodology)
+    println!("Cooldown");
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
+    // Construction
+    println!("Constructing");
+    let start = Instant::now();
+    let mut pl = ProgressLogger::default();
+    let func: Unaligned<LcpMmphfInt<u32>> =
+        LcpMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+    let construction_ms = start.elapsed().as_millis() as u64;
+
+    // Test correctness (first 100k, matching C++/Java)
+    println!("Testing");
+    let check_n = n.min(100_000);
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
+        if got != i {
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
+        }
+    }
+
+    // Space
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+
+    // Query
+    let mut query_ms: u64 = 0;
+    if num_queries > 0 {
+        println!("Preparing query plan");
+        let mut query_plan: Vec<u32> = Vec::with_capacity(num_queries);
+        for _ in 0..num_queries {
+            let idx = rand::random_range(0..n);
+            query_plan.push(keys[idx]);
+        }
+
+        println!("Cooldown");
+        std::thread::sleep(std::time::Duration::from_secs(3));
+
+        println!("Querying");
+        let start = Instant::now();
+        for &key in &query_plan {
+            black_box(func.get(key));
+        }
+        query_ms = start.elapsed().as_millis() as u64;
+    }
+
+    println!(
+        "RESULT dataset={dataset} name=LcpMmphfRust \
+         bitsPerElement={bits_per_element} \
+         constructionTimeMilliseconds={construction_ms} \
+         queryTimeMilliseconds={query_ms} \
+         numQueries={num_queries} \
+         N={n}"
+    );
+
+    Ok(())
+}
+
+/// Benchmark Lcp2MmphfInt on u32 keys.
+fn bench_int32_lcp2(dataset: &str, keys: &[u32], num_queries: usize) -> Result<()> {
+    let n = keys.len();
+
+    println!("\nContender: Lcp2MmphfRust");
+
+    // Cooldown (matching C++/Java methodology)
+    println!("Cooldown");
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
+    // Construction
+    println!("Constructing");
+    let start = Instant::now();
+    let mut pl = ProgressLogger::default();
+    let func: Unaligned<Lcp2MmphfInt<u32>> =
+        Lcp2MmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+    let construction_ms = start.elapsed().as_millis() as u64;
+
+    // Test correctness (first 100k, matching C++/Java)
+    println!("Testing");
+    let check_n = n.min(100_000);
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
+        if got != i {
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
+        }
+    }
+
+    // Space
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+
+    // Query
+    let mut query_ms: u64 = 0;
+    if num_queries > 0 {
+        println!("Preparing query plan");
+        let mut query_plan: Vec<u32> = Vec::with_capacity(num_queries);
+        for _ in 0..num_queries {
+            let idx = rand::random_range(0..n);
+            query_plan.push(keys[idx]);
+        }
+
+        println!("Cooldown");
+        std::thread::sleep(std::time::Duration::from_secs(3));
+
+        println!("Querying");
+        let start = Instant::now();
+        for &key in &query_plan {
+            black_box(func.get(key));
+        }
+        query_ms = start.elapsed().as_millis() as u64;
+    }
+
+    println!(
+        "RESULT dataset={dataset} name=Lcp2MmphfRust \
+         bitsPerElement={bits_per_element} \
+         constructionTimeMilliseconds={construction_ms} \
+         queryTimeMilliseconds={query_ms} \
+         numQueries={num_queries} \
+         N={n}"
+    );
+
+    Ok(())
+}
+
 /// Benchmark Lcp2MmphfStr on string keys.
 fn bench_strings_lcp2(dataset: &str, keys: &[String], num_queries: usize) -> Result<()> {
     let n = keys.len();
@@ -451,8 +578,8 @@ fn main() -> Result<()> {
                 eprintln!("Input file does not contain integers");
                 return Ok(());
             }
-            bench_int64(&dataset, &keys, args.num_queries)?;
-            bench_int64_lcp2(&dataset, &keys, args.num_queries)?;
+            bench_int32(&dataset, &keys, args.num_queries)?;
+            bench_int32_lcp2(&dataset, &keys, args.num_queries)?;
         }
         other => {
             bail!("Unknown input type: {other}");
