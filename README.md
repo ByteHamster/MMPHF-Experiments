@@ -8,8 +8,8 @@ The framework provides a unified interface to test basically all modern MPHF con
 
 - LeMonHash / LeMonHash-VL ([Paper](https://doi.org/10.4230/LIPIcs.ESA.2023.46), [Code](https://github.com/ByteHamster/LeMonHash))
 - Path Decomposed Trie ([Paper](https://doi.org/10.1145/2656332), [Code](https://github.com/ot/path_decomposed_tries))
-- Longest Common Prefix Bucketing with 2-step MWHC ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
-- Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Java Code](https://github.com/vigna/Sux4J), [Rust Code](https://github.com/vigna/sux-rs))
+- Longest Common Prefix Bucketing with 2-step MWHC ([Paper](https://doi.org/10.1145/1963190.2025378), [Java Code](https://github.com/vigna/Sux4J), [Rust Code](https://github.com/vigna/sux-rs))
 - Variable Length Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
 - Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
 - Variable Length Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
@@ -72,11 +72,6 @@ Several experiments files are available:
 
 For real world input data sets, run the benchmarks outside of Docker and have a look at `scripts/runExperiments.sh`.
 The resulting plots can be found in `scripts/dockerVolume` and have the file extension `.pdf`.
-
-#### Competitors
-
-This fork adds the Rust-based `LcpMmphf` from [sux-rs](https://github.com/vigna/sux-rs) to the comparison.
-The Rust benchmark code is in the `rust/` directory and is built automatically by the Docker image.
 
 ### License
 
