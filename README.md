@@ -1,13 +1,30 @@
 # MMPHF-Experiments
 
-Monotone Minimal Perfect Hashing competitors.
+A monotone minimal perfect hash function (MMPHF) maps a set S of n input keys to the first n integers without collisions. At the same time, it respects the natural order of the input universe. In other words, it maps each input key to its rank. MMPHFs have many applications in databases and space-efficient data structures.
+
+<img src="plots.png" width="500"/>
+
+The framework provides a unified interface to test basically all modern MPHF constructions that are currently available, including:
+
+- LeMonHash / LeMonHash-VL ([Paper](https://doi.org/10.4230/LIPIcs.ESA.2023.46), [Code](https://github.com/ByteHamster/LeMonHash))
+- Path Decomposed Trie ([Paper](https://doi.org/10.1145/2656332), [Code](https://github.com/ot/path_decomposed_tries))
+- Longest Common Prefix Bucketing with 2-step MWHC ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Variable Length Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Variable Length Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Centroid Hollow Trie ([Paper](https://doi.org/10.1145/2656332), [Code](https://github.com/ot/path_decomposed_tries))
+- Hollow Trie Distributor ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Hollow Trie (Java) ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+- Hollow Trie (C++) ([Paper](https://doi.org/10.1145/2656332), [Code](https://github.com/ot/path_decomposed_tries))
+- ZFast Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
+
 
 ## Reproducing Experiments
 
 This repository contains the source code and our reproducibility artifacts for comparing different MMPHF constructions.
-
-We provide an easy to use Docker image to quickly reproduce our results.
-Alternatively, you can look at the `Dockerfile` to see all libraries, tools, and commands necessary to compile.
+While we recommend running the evaluation directly, we also provide an easy to use Docker image to quickly reproduce our results.
+Alternatively, you can look at the `Dockerfile` to see all libraries, tools, and commands necessary to compile and run the experiments directly.
 
 #### Cloning the Repository
 
@@ -39,8 +56,14 @@ This does not require the Docker image to recompile.
 The experiments can be started by using the following command:
 
 ```bash
-docker run --interactive --tty -v "$(pwd)/scripts/dockerVolume:/opt/dockerVolume" mmphf_experiments /opt/dockerVolume/normal-distribution.sh
+docker run --interactive --tty -v "$(pwd)/scripts/dockerVolume:/opt/dockerVolume" mmphf_experiments <filename>
 ```
+
+Several experiments files are available:
+
+| Input Distribution | Launch command                           |
+|:-------------------| :--------------------------------------- |
+| Normal             | /opt/dockerVolume/normal-distribution.sh |
 
 The resulting plots can be found in `scripts/dockerVolume` and have the file extension `.pdf`.
 
