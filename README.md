@@ -23,8 +23,11 @@ The framework provides a unified interface to test basically all modern MPHF con
 ## Reproducing Experiments
 
 This repository contains the source code and our reproducibility artifacts for comparing different MMPHF constructions.
-While we recommend running the evaluation directly, we also provide an easy to use Docker image to quickly reproduce our results.
-Alternatively, you can look at the `Dockerfile` to see all libraries, tools, and commands necessary to compile and run the experiments directly.
+We recommend running the evaluation directly for benchmarking purposes.
+For this, have a look at `scripts/runExperiments.sh`.
+You can also look at the `Dockerfile` to see all libraries, tools, and commands necessary to compile and run the experiments directly.
+
+However, we also provide an easy to use Docker image to quickly reproduce our results.
 
 #### Cloning the Repository
 
@@ -61,10 +64,13 @@ docker run --interactive --tty -v "$(pwd)/scripts/dockerVolume:/opt/dockerVolume
 
 Several experiments files are available:
 
-| Input Distribution | Launch command                           |
-|:-------------------| :--------------------------------------- |
-| Normal             | /opt/dockerVolume/normal-distribution.sh |
+| Input Distribution | Launch command                                |
+|:-------------------| :-------------------------------------------- |
+| Normal             | /opt/dockerVolume/normal-distribution.sh      |
+| Exponential        | /opt/dockerVolume/exponential-distribution.sh |
+| Uniform            | /opt/dockerVolume/uniform-distribution.sh     |
 
+For real world input data sets, run the benchmarks outside of Docker and have a look at `scripts/runExperiments.sh`.
 The resulting plots can be found in `scripts/dockerVolume` and have the file extension `.pdf`.
 
 ### License
