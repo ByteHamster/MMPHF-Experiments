@@ -14,12 +14,10 @@ use clap::Parser;
 use dsi_progress_logger::ProgressLogger;
 use mem_dbg::{MemSize, SizeFlags};
 use std::hint::black_box;
-use std::io::{BufRead, BufReader, Cursor};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use sux::func::{Lcp2MmphfInt, Lcp2MmphfStr, LcpMmphfInt, LcpMmphfStr};
 use sux::traits::{TryIntoUnaligned, Unaligned};
-use sux::utils::{FromSlice, LineLender};
 
 #[derive(Parser, Debug)]
 #[command(
@@ -113,14 +111,22 @@ fn load_int32_file(path: &Path, max_n: usize) -> Result<Vec<u32>> {
     Ok(keys)
 }
 
-/// Read a newline-separated sorted string file.
-fn load_string_file(path: &Path, max_n: usize) -> Result<Vec<String>> {
+/// Read a newline-separated sorted string file into a contiguous byte
+/// buffer.
+fn load_string_file(path: &Path) -> Result<Vec<u8>> {
     println!("Loading input file");
-    let file = std::fs::File::open(path)?;
-    let reader = BufReader::with_capacity(1 << 20, file);
-    let mut keys: Vec<String> = Vec::new();
-    for line in reader.lines() {
-        let line = line?;
+    std::fs::read(path).with_context(|| format!("reading {}", path.display()))
+}
+
+/// Build string slices from a newline-separated contiguous buffer,
+/// returning at most `max_n` keys.
+fn string_keys(data: &[u8], max_n: usize) -> Result<Vec<&str>> {
+    let text = std::str::from_utf8(data).context("input is not valid UTF-8")?;
+    let mut keys: Vec<&str> = Vec::new();
+    for line in text.lines() {
+        if line.is_empty() {
+            continue;
+        }
         keys.push(line);
         if keys.len() >= max_n {
             break;
@@ -148,7 +154,7 @@ fn bench_int64(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfInt<u64>> =
-        LcpMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -198,7 +204,7 @@ fn bench_int64(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
 }
 
 /// Benchmark LcpMmphfStr on string keys.
-fn bench_strings(dataset: &str, keys: &[String], num_queries: usize) -> Result<()> {
+fn bench_strings(dataset: &str, keys: &[&str], num_queries: usize) -> Result<()> {
     let n = keys.len();
 
     println!("\nContender: LcpMmphfRust");
@@ -207,21 +213,19 @@ fn bench_strings(dataset: &str, keys: &[String], num_queries: usize) -> Result<(
     println!("Cooldown");
     std::thread::sleep(std::time::Duration::from_secs(3));
 
-    // Construction — build LineLender from in-memory blob
+    // Construction
     println!("Constructing");
-    let blob = keys.join("\n");
-    let lender = LineLender::new(BufReader::new(Cursor::new(blob.into_bytes())));
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfStr> =
-        LcpMmphfStr::try_new(lender, n, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfStr::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
     println!("Testing");
     let check_n = n.min(100_000);
-    for (i, key) in keys[..check_n].iter().enumerate() {
-        let got = func.get(key.as_str());
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
         if got != i {
             bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
@@ -285,7 +289,7 @@ fn bench_int64_lcp2(dataset: &str, keys: &[u64], num_queries: usize) -> Result<(
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfInt<u64>> =
-        Lcp2MmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -349,7 +353,7 @@ fn bench_int32(dataset: &str, keys: &[u32], num_queries: usize) -> Result<()> {
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfInt<u32>> =
-        LcpMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -413,7 +417,7 @@ fn bench_int32_lcp2(dataset: &str, keys: &[u32], num_queries: usize) -> Result<(
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfInt<u32>> =
-        Lcp2MmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -463,7 +467,7 @@ fn bench_int32_lcp2(dataset: &str, keys: &[u32], num_queries: usize) -> Result<(
 }
 
 /// Benchmark Lcp2MmphfStr on string keys.
-fn bench_strings_lcp2(dataset: &str, keys: &[String], num_queries: usize) -> Result<()> {
+fn bench_strings_lcp2(dataset: &str, keys: &[&str], num_queries: usize) -> Result<()> {
     let n = keys.len();
 
     println!("\nContender: Lcp2MmphfRust");
@@ -472,21 +476,19 @@ fn bench_strings_lcp2(dataset: &str, keys: &[String], num_queries: usize) -> Res
     println!("Cooldown");
     std::thread::sleep(std::time::Duration::from_secs(3));
 
-    // Construction — build LineLender from in-memory blob
+    // Construction
     println!("Constructing");
-    let blob = keys.join("\n");
-    let lender = LineLender::new(BufReader::new(Cursor::new(blob.into_bytes())));
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfStr> =
-        Lcp2MmphfStr::try_new(lender, n, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfStr::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
     println!("Testing");
     let check_n = n.min(100_000);
-    for (i, key) in keys[..check_n].iter().enumerate() {
-        let got = func.get(key.as_str());
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
         if got != i {
             bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
         }
@@ -555,7 +557,8 @@ fn main() -> Result<()> {
 
     match args.data_type.as_str() {
         "strings" => {
-            let keys = load_string_file(&args.filename, max_n)?;
+            let data = load_string_file(&args.filename)?;
+            let keys = string_keys(&data, max_n)?;
             if keys.len() < 2 {
                 eprintln!("Input file does not contain strings");
                 return Ok(());
