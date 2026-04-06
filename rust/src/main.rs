@@ -16,12 +16,14 @@ use mem_dbg::{MemSize, SizeFlags};
 use std::hint::black_box;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
+use sux::func::hollow_trie::{HtDistMmphfInt, HtDistMmphfStr};
 use sux::func::{Lcp2MmphfInt, Lcp2MmphfStr, LcpMmphfInt, LcpMmphfStr};
 use sux::traits::{TryIntoUnaligned, Unaligned};
+use sux::utils::FromSlice;
 
 #[derive(Parser, Debug)]
 #[command(
-    about = "Rust MMPHF benchmark (sux-rs LcpMmphf).",
+    about = "Rust MMPHF benchmark (sux-rs LcpMmphf, Lcp2Mmphf, HtDistMmphf).",
     long_about = None,
     next_line_help = true,
     max_term_width = 100
@@ -537,6 +539,205 @@ fn bench_strings_lcp2(dataset: &str, keys: &[&str], num_queries: usize) -> Resul
     Ok(())
 }
 
+/// Benchmark HtDistMmphfInt on u64 keys.
+fn bench_int64_ht_dist(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
+    let n = keys.len();
+
+    println!("\nContender: HtDistMmphfRust");
+
+    // Cooldown (matching C++/Java methodology)
+    println!("Cooldown");
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
+    // Construction
+    println!("Constructing");
+    let start = Instant::now();
+    let mut pl = ProgressLogger::default();
+    let func: Unaligned<HtDistMmphfInt<u64>> =
+        HtDistMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+    let construction_ms = start.elapsed().as_millis() as u64;
+
+    // Test correctness (first 100k, matching C++/Java)
+    println!("Testing");
+    let check_n = n.min(100_000);
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
+        if got != i {
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
+        }
+    }
+
+    // Space
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+
+    // Query
+    let mut query_ms: u64 = 0;
+    if num_queries > 0 {
+        println!("Preparing query plan");
+        let mut query_plan: Vec<u64> = Vec::with_capacity(num_queries);
+        for _ in 0..num_queries {
+            let idx = rand::random_range(0..n);
+            query_plan.push(keys[idx]);
+        }
+
+        println!("Cooldown");
+        std::thread::sleep(std::time::Duration::from_secs(3));
+
+        println!("Querying");
+        let start = Instant::now();
+        for &key in &query_plan {
+            black_box(func.get(key));
+        }
+        query_ms = start.elapsed().as_millis() as u64;
+    }
+
+    println!(
+        "RESULT dataset={dataset} name=HtDistMmphfRust \
+         bitsPerElement={bits_per_element} \
+         constructionTimeMilliseconds={construction_ms} \
+         queryTimeMilliseconds={query_ms} \
+         numQueries={num_queries} \
+         N={n}"
+    );
+
+    Ok(())
+}
+
+/// Benchmark HtDistMmphfStr on string keys.
+fn bench_strings_ht_dist(dataset: &str, keys: &[&str], num_queries: usize) -> Result<()> {
+    let n = keys.len();
+
+    println!("\nContender: HtDistMmphfRust");
+
+    // Cooldown
+    println!("Cooldown");
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
+    // Construction
+    println!("Constructing");
+    let start = Instant::now();
+    let mut pl = ProgressLogger::default();
+    let func: Unaligned<HtDistMmphfStr> =
+        HtDistMmphfStr::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+    let construction_ms = start.elapsed().as_millis() as u64;
+
+    // Test correctness
+    println!("Testing");
+    let check_n = n.min(100_000);
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
+        if got != i {
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
+        }
+    }
+
+    // Space
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+
+    // Query — pack query strings contiguously
+    let mut query_ms: u64 = 0;
+    if num_queries > 0 {
+        println!("Preparing query plan");
+        let mut packed_data: Vec<u8> = Vec::new();
+        let mut packed_offsets: Vec<u32> = Vec::with_capacity(num_queries + 1);
+        packed_offsets.push(0);
+        for _ in 0..num_queries {
+            let idx = rand::random_range(0..n);
+            packed_data.extend_from_slice(keys[idx].as_bytes());
+            packed_offsets.push(packed_data.len() as u32);
+        }
+
+        println!("Cooldown");
+        std::thread::sleep(std::time::Duration::from_secs(3));
+
+        println!("Querying");
+        let start = Instant::now();
+        for i in 0..num_queries {
+            let s = packed_offsets[i] as usize;
+            let e = packed_offsets[i + 1] as usize;
+            // SAFETY: packed_data was built from valid UTF-8 strings.
+            let q = unsafe { std::str::from_utf8_unchecked(&packed_data[s..e]) };
+            black_box(func.get(q));
+        }
+        query_ms = start.elapsed().as_millis() as u64;
+    }
+
+    println!(
+        "RESULT dataset={dataset} name=HtDistMmphfRust \
+         bitsPerElement={bits_per_element} \
+         constructionTimeMilliseconds={construction_ms} \
+         queryTimeMilliseconds={query_ms} \
+         numQueries={num_queries} \
+         N={n}"
+    );
+
+    Ok(())
+}
+
+/// Benchmark HtDistMmphfInt on u32 keys.
+fn bench_int32_ht_dist(dataset: &str, keys: &[u32], num_queries: usize) -> Result<()> {
+    let n = keys.len();
+
+    println!("\nContender: HtDistMmphfRust");
+
+    // Cooldown (matching C++/Java methodology)
+    println!("Cooldown");
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
+    // Construction
+    println!("Constructing");
+    let start = Instant::now();
+    let mut pl = ProgressLogger::default();
+    let func: Unaligned<HtDistMmphfInt<u32>> =
+        HtDistMmphfInt::try_new(FromSlice::new(keys), n, &mut pl)?.try_into_unaligned()?;
+    let construction_ms = start.elapsed().as_millis() as u64;
+
+    // Test correctness (first 100k, matching C++/Java)
+    println!("Testing");
+    let check_n = n.min(100_000);
+    for (i, &key) in keys[..check_n].iter().enumerate() {
+        let got = func.get(key);
+        if got != i {
+            bail!("Error: Key at index {i} is not monotone minimal perfect (output: {got})");
+        }
+    }
+
+    // Space
+    let bits_per_element = func.mem_size(SizeFlags::default()) as f64 * 8.0 / n as f64;
+
+    // Query
+    let mut query_ms: u64 = 0;
+    if num_queries > 0 {
+        println!("Preparing query plan");
+        let mut query_plan: Vec<u32> = Vec::with_capacity(num_queries);
+        for _ in 0..num_queries {
+            let idx = rand::random_range(0..n);
+            query_plan.push(keys[idx]);
+        }
+
+        println!("Cooldown");
+        std::thread::sleep(std::time::Duration::from_secs(3));
+
+        println!("Querying");
+        let start = Instant::now();
+        for &key in &query_plan {
+            black_box(func.get(key));
+        }
+        query_ms = start.elapsed().as_millis() as u64;
+    }
+
+    println!(
+        "RESULT dataset={dataset} name=HtDistMmphfRust \
+         bitsPerElement={bits_per_element} \
+         constructionTimeMilliseconds={construction_ms} \
+         queryTimeMilliseconds={query_ms} \
+         numQueries={num_queries} \
+         N={n}"
+    );
+
+    Ok(())
+}
+
 // ── Main ────────────────────────────────────────────────────────────
 
 fn main() -> Result<()> {
@@ -565,6 +766,7 @@ fn main() -> Result<()> {
             }
             bench_strings(&dataset, &keys, args.num_queries)?;
             bench_strings_lcp2(&dataset, &keys, args.num_queries)?;
+            bench_strings_ht_dist(&dataset, &keys, args.num_queries)?;
         }
         "int64" => {
             let keys = load_int64_file(&args.filename, max_n)?;
@@ -574,6 +776,7 @@ fn main() -> Result<()> {
             }
             bench_int64(&dataset, &keys, args.num_queries)?;
             bench_int64_lcp2(&dataset, &keys, args.num_queries)?;
+            bench_int64_ht_dist(&dataset, &keys, args.num_queries)?;
         }
         "int32" => {
             let keys = load_int32_file(&args.filename, max_n)?;
@@ -583,6 +786,7 @@ fn main() -> Result<()> {
             }
             bench_int32(&dataset, &keys, args.num_queries)?;
             bench_int32_lcp2(&dataset, &keys, args.num_queries)?;
+            bench_int32_ht_dist(&dataset, &keys, args.num_queries)?;
         }
         other => {
             bail!("Unknown input type: {other}");
