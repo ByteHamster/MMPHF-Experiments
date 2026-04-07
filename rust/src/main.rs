@@ -17,7 +17,7 @@ use std::hint::black_box;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use sux::func::hollow_trie::{HtDistMmphfInt, HtDistMmphfStr};
-use sux::func::{Lcp2MmphfInt, Lcp2MmphfStr, LcpMmphfInt, LcpMmphfStr};
+use sux::func::{Lcp2MmphfInt, Lcp2MmphfStr, LcpMmphfInt, LcpMmphfStr, VBuilder};
 use sux::traits::{TryIntoUnaligned, Unaligned};
 use sux::utils::FromSlice;
 
@@ -156,7 +156,7 @@ fn bench_int64(dataset: &str, keys: &[u64], num_queries: usize) -> Result<()> {
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfInt<u64>> =
-        LcpMmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfInt::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -220,7 +220,7 @@ fn bench_strings(dataset: &str, keys: &[&str], num_queries: usize) -> Result<()>
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfStr> =
-        LcpMmphfStr::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfStr::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
@@ -291,7 +291,7 @@ fn bench_int64_lcp2(dataset: &str, keys: &[u64], num_queries: usize) -> Result<(
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfInt<u64>> =
-        Lcp2MmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfInt::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -355,7 +355,7 @@ fn bench_int32(dataset: &str, keys: &[u32], num_queries: usize) -> Result<()> {
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<LcpMmphfInt<u32>> =
-        LcpMmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        LcpMmphfInt::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -419,7 +419,7 @@ fn bench_int32_lcp2(dataset: &str, keys: &[u32], num_queries: usize) -> Result<(
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfInt<u32>> =
-        Lcp2MmphfInt::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfInt::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness (first 100k, matching C++/Java)
@@ -483,7 +483,7 @@ fn bench_strings_lcp2(dataset: &str, keys: &[&str], num_queries: usize) -> Resul
     let start = Instant::now();
     let mut pl = ProgressLogger::default();
     let func: Unaligned<Lcp2MmphfStr> =
-        Lcp2MmphfStr::try_par_new(keys, &mut pl)?.try_into_unaligned()?;
+        Lcp2MmphfStr::try_new_with_builder(FromSlice::new(keys), keys.len(), VBuilder::default().max_num_threads(1), &mut pl)?.try_into_unaligned()?;
     let construction_ms = start.elapsed().as_millis() as u64;
 
     // Test correctness
