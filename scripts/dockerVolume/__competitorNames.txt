@@ -13,4 +13,3 @@ RESULT code_name=TwoStepsLcpJava		paper_name=LCP 2-step			attr=mark=leftTriangle
 RESULT code_name=ZFastTrieDistributorJava	paper_name=ZFast			attr=mark=diamond,color=colorZFastTrieDistributor,solid
 RESULT code_name=LcpMmphfRust			paper_name=LCP (Rust)			attr=mark=otimes,color=colorLcpMmphfRust,solid
 RESULT code_name=Lcp2MmphfRust			paper_name=LCP 2-st (Rust)		attr=mark=oplus,color=colorLcp2MmphfRust,solid
-RESULT code_name=HtDistMmphfRust		paper_name=HTDist (Rust)		attr=mark=star,color=colorHtDistMmphfRust,solid
