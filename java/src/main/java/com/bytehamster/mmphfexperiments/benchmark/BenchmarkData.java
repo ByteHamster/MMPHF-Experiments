@@ -6,23 +6,20 @@ import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class BenchmarkData {
-
     public static List<byte[]> loadStringFile(String filename, int maxStrings) {
         System.out.println("Loading input file");
         List<byte[]> inputData = new ArrayList<>();
         try {
-            FileLinesByteArrayIterable scanner = new FileLinesByteArrayIterable(
-                filename,
-                null
-            );
+            FileLinesByteArrayIterable scanner = new FileLinesByteArrayIterable(filename, null);
             for (byte[] line : scanner) {
                 if (!inputData.isEmpty()) {
-                    if (java.util.Arrays.compareUnsigned(inputData.get(inputData.size() - 1), line) > 0) {
+                    if (Arrays.compareUnsigned(inputData.get(inputData.size() - 1), line) > 0) {
                         throw new RuntimeException("Not sorted or duplicate key");
                     }
                 }
