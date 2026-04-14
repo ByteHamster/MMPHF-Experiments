@@ -9,7 +9,7 @@ The framework provides a unified interface to test basically all modern MPHF con
 - LeMonHash / LeMonHash-VL ([Paper](https://doi.org/10.4230/LIPIcs.ESA.2023.46), [Code](https://github.com/ByteHamster/LeMonHash))
 - Path Decomposed Trie ([Paper](https://doi.org/10.1145/2656332), [Code](https://github.com/ot/path_decomposed_tries))
 - Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Java Code](https://github.com/vigna/Sux4J), [Rust Code](https://github.com/vigna/sux-rs))
-- Longest Common Prefix Bucketing with 2-step MWHC ([Paper](https://doi.org/10.1145/1963190.2025378), [Java Code](https://github.com/vigna/Sux4J), [Rust Code](https://github.com/vigna/sux-rs))
+- Longest Common Prefix Bucketing with 2-step static function ([Paper](https://doi.org/10.1145/1963190.2025378), [Java Code](https://github.com/vigna/Sux4J), [Rust Code](https://github.com/vigna/sux-rs))
 - Variable Length Longest Common Prefix Bucketing ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
 - Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
 - Variable Length Partial Compacted Trie ([Paper](https://doi.org/10.1145/1963190.2025378), [Code](https://github.com/vigna/Sux4J))
