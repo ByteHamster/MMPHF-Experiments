@@ -39,4 +39,4 @@ WORKDIR /opt/mmphf/rust
 RUN cargo build --release
 
 # Actual benchmark
-CMD bash /opt/dockerVolume/uk-2007-05.sh
+CMD bash /opt/dockerVolume/normal-distribution.sh
