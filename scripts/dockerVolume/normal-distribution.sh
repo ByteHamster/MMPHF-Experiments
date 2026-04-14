@@ -9,6 +9,8 @@ strings ./Comparison | grep " -m" | tee /opt/dockerVolume/normal-distribution.tx
 
 java -Xmx64G -jar /opt/mmphf/java/target/MmphfExperiments-1.0-jar-with-dependencies.jar --type int64 --filename /opt/mmphf/normal_uint64 --numQueries 5000000 | tee --append /opt/dockerVolume/normal-distribution.txt
 
+/opt/mmphf/rust/target/release/Comparison --type int64 --filename /opt/mmphf/normal_uint64 --numQueries 5000000 | tee --append /opt/dockerVolume/normal-distribution.txt
+
 # Build plot
 cd /opt/dockerVolume
 /opt/sqlplot-tools/build/src/sqlplot-tools normal-distribution.tex
