@@ -1,24 +1,25 @@
 package com.bytehamster.mmphfexperiments.benchmark;
 
+import it.unimi.dsi.io.FileLinesByteArrayIterable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class BenchmarkData {
-    public static List<String> loadStringFile(String filename, int maxStrings) {
+    public static List<byte[]> loadStringFile(String filename, int maxStrings) {
         System.out.println("Loading input file");
-        List<String> inputData = new ArrayList<>();
+        List<byte[]> inputData = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(new File(filename));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+            FileLinesByteArrayIterable scanner = new FileLinesByteArrayIterable(filename, null);
+            for (byte[] line : scanner) {
                 if (!inputData.isEmpty()) {
-                    if (inputData.get(inputData.size() - 1).compareTo(line) > 0) {
+                    if (Arrays.compareUnsigned(inputData.get(inputData.size() - 1), line) > 0) {
                         throw new RuntimeException("Not sorted or duplicate key");
                     }
                 }
@@ -27,9 +28,8 @@ public class BenchmarkData {
                     break;
                 }
             }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            t.printStackTrace();
             System.exit(1);
         }
         System.out.println("Loaded " + inputData.size() + " strings");

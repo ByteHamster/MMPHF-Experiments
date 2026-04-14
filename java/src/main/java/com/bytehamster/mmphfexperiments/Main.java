@@ -62,19 +62,19 @@ public class Main {
         Contender.dataset = new File(filename).getName();
         Sux4jSetup.setup();
         if (type.equals("strings")) {
-            List<String> input = BenchmarkData.loadStringFile(filename, maxN);
+            List<byte[]> input = BenchmarkData.loadStringFile(filename, maxN);
             if (input.size() < 2) {
                 System.out.println("Input file does not contain strings");
                 return;
             }
-            new HollowTrieContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new HollowTrieDistContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new LcpContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new PaCoTrieContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new TwoStepsLcpContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new VLLcpContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new VLPaCoTrieContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
-            new ZFastTrieDistributorContender<String>(TransformationStrategies.prefixFreeUtf16()).run(input);
+            new HollowTrieContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new HollowTrieDistContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new LcpContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new PaCoTrieContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new TwoStepsLcpContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new VLLcpContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new VLPaCoTrieContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
+            new ZFastTrieDistributorContender<byte[]>(TransformationStrategies.prefixFreeByteArray()).run(input);
         } else {
             List<Long> input;
             if (type.equals("int64")) {
