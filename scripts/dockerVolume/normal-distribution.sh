@@ -18,3 +18,4 @@ rm -f normal-distribution.pdf
 pdflatex normal-distribution.tex
 pdflatex normal-distribution.tex
 rm -f *.out *.log *.aux
+

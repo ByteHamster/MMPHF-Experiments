@@ -31,3 +31,4 @@ benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/osm_cellids_800M
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/uniform_uint64"
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/exponential_uint64"
 benchmarkDataset --type int64 --filename "$pathToDatasetsFolder/normal_uint64"
+
