@@ -38,11 +38,7 @@ public class BenchmarkData {
 
     public static List<Long> loadInt64File(String filename, int maxInts) {
         List<Long> inputData = new ArrayList<>();
-        try (
-            LongStream fis = new LongStream(
-                Files.newInputStream(Paths.get(filename))
-            )
-        ) {
+        try (LongStream fis = new LongStream(Files.newInputStream(Paths.get(filename)))) {
             long n = fis.readLong();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
@@ -62,11 +58,7 @@ public class BenchmarkData {
 
     public static List<Long> loadInt32File(String filename, int maxInts) {
         List<Long> inputData = new ArrayList<>();
-        try (
-            IntStream fis = new IntStream(
-                Files.newInputStream(Paths.get(filename))
-            )
-        ) {
+        try (IntStream fis = new IntStream(Files.newInputStream(Paths.get(filename)))) {
             int n = fis.readInt();
             System.out.println("Loading input file of size " + n);
             for (int i = 0; i < n; i++) {
