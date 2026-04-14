@@ -9,7 +9,7 @@ name = "Comparison"
 path = "src/main.rs"
 
 [dependencies]
-sux = { git = "https://github.com/vigna/sux-rs", features = ["rayon"] }
+sux = "0.14.0"
 anyhow = "1"
 clap = { version = "4", features = ["derive", "wrap_help"] }
 env_logger = "0.11"
