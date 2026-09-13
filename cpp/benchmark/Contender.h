@@ -3,7 +3,7 @@
 #include <random>
 #include <iostream>
 #include <chrono>
-#include <XorShift64.h>
+#include <bytehamster/util/XorShift64.h>
 #include <unistd.h>
 #include "BenchmarkData.h"
 
@@ -58,7 +58,7 @@ class Contender {
                 std::cout<<"Preparing query plan"<<std::endl;
                 std::vector<T> queryPlan;
                 queryPlan.reserve(numQueries);
-                util::XorShift64 prng(time(nullptr));
+                bytehamster::util::XorShift64 prng(time(nullptr));
                 for (size_t i = 0; i < numQueries; i++) {
                     queryPlan.push_back(keys[prng(N)]);
                 }

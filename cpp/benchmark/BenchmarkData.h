@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include <XorShift64.h>
+#include <bytehamster/util/XorShift64.h>
 #include <chrono>
 #include <unordered_set>
 #include <algorithm>
